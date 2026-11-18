@@ -17,6 +17,8 @@
             frag.appendChild(s);
           });
           node.replaceChild(frag, child);
+        } else if (child.nodeType === 1 && child.tagName === 'EM') {
+          child.classList.add('w'); child.style.setProperty('--i', i++);
         } else if (child.nodeType === 1) { split(child); }
       });
     })(h1);
