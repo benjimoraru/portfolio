@@ -41,7 +41,7 @@
   }
 
   // Reveal on scroll, with a small stagger for siblings
-  document.querySelectorAll('section .eyebrow, section h2, section .lead, .card, .stat, .insight, .quote, .skills li, .two-col p, .case-hero > .wrap > *, section .narrow > p, .placeholder, .contact .links, .next-case')
+  document.querySelectorAll('section .eyebrow, section h2, section .lead, .card, .stat, .insight, .quote, .skills li, .two-col p, .case-hero > .wrap > *, section .narrow > p, .placeholder, .contact .links, .next-case, .duo-item, .findings li, .decision, .frame, .design-block h3, .design-block p, .checklist li')
     .forEach(function (el) { if (!el.closest('.hero')) el.classList.add('reveal'); });
   var items = document.querySelectorAll('.reveal');
   if (!('IntersectionObserver' in window) || reduce) {
