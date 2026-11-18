@@ -45,7 +45,8 @@ img { max-width: 100%; display: block; }
 .narrow { max-width: 720px; }
 
 /* Nav */
-nav { position: sticky; top: 0; z-index: 10; background: rgba(17, 12, 24, .72); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid rgba(255,255,255,.08); }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 10; background: transparent !important; border-bottom: 1px solid transparent; transition: background .35s ease, border-color .35s ease, backdrop-filter .35s ease, box-shadow .3s ease; }
+nav.scrolled { background: rgba(17, 12, 24, .72) !important; backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom-color: rgba(255,255,255,.08); }
 nav .wrap { display: flex; justify-content: space-between; align-items: center; height: 60px; }
 .logo { font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 19px; text-decoration: none; letter-spacing: -0.01em; }
 nav ul { display: flex; gap: 28px; list-style: none; font-size: 14px; }
@@ -83,7 +84,7 @@ section { padding: 104px 0; }
 .hero h1 em, .hero h1 em .w { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .hero-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 40px; }
 .chip { font-size: 14px; padding: 7px 15px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.04); backdrop-filter: blur(8px); }
-.chip.dot::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #ffcc55; margin-right: 8px; }
+.chip.dot::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #30d158; margin-right: 8px; }
 
 /* Work cards */
 .work-grid { display: grid; gap: 24px; margin-top: 40px; }
@@ -227,7 +228,7 @@ nav ul a:hover::after { transform: scaleX(1); transform-origin: left; }
 .chip { transition: transform .2s ease, border-color .2s ease; }
 .chip:hover { transform: translateY(-2px); border-color: var(--accent); }
 .chip.dot::before { animation: pulse 2s ease-in-out infinite; }
-@keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,204,85,.55); } 50% { box-shadow: 0 0 0 6px rgba(255,204,85,0); } }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(48,209,88,.55); } 50% { box-shadow: 0 0 0 6px rgba(48,209,88,0); } }
 
 .button { transition: transform .2s ease, background .2s ease, color .2s ease; }
 .button:hover { transform: translateY(-2px); }
