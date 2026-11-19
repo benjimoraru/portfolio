@@ -81,9 +81,35 @@
     var lb = document.createElement('div'); lb.className = 'lightbox'; lb.setAttribute('role','dialog');
     var big = document.createElement('img'); lb.appendChild(big); document.body.appendChild(lb);
     shots.forEach(function (img) {
-      img.parentNode.addEventListener('click', function () { big.src = img.src; big.alt = img.alt; lb.scrollTop = 0; lb.classList.add('open'); });
+      img.parentNode.addEventListener('click', function () {
+        big.src = img.src; big.alt = img.alt; lb.scrollTop = 0; lb.scrollLeft = 0;
+        lb.classList.remove('full');
+        lb.classList.toggle('zoom', img.parentNode.classList.contains('zoomable'));
+        lb.classList.add('open');
+      });
     });
+    var hint = document.createElement('p'); hint.className = 'lb-hint'; lb.appendChild(hint);
+    var setHint = function () { hint.textContent = lb.classList.contains('full') ? 'Drag or scroll to read · click to zoom out' : 'Click the board to zoom in'; };
+    big.addEventListener('click', function (e) {
+      if (!lb.classList.contains('zoom')) return;
+      e.stopPropagation();
+      var r = big.getBoundingClientRect(), fx = (e.clientX - r.left) / r.width, fy = (e.clientY - r.top) / r.height;
+      lb.classList.toggle('full'); setHint();
+      if (lb.classList.contains('full')) {
+        requestAnimationFrame(function () {
+          lb.scrollLeft = big.offsetLeft + fx * big.offsetWidth - lb.clientWidth / 2;
+          lb.scrollTop = big.offsetTop + fy * big.offsetHeight - lb.clientHeight / 2;
+        });
+      }
+    });
+    // drag to pan when zoomed
+    var drag = null, moved = false;
+    big.addEventListener('mousedown', function (e) { if (!lb.classList.contains('full')) return; drag = { x: e.clientX, y: e.clientY, l: lb.scrollLeft, t: lb.scrollTop }; moved = false; e.preventDefault(); });
+    window.addEventListener('mousemove', function (e) { if (!drag) return; var dx = e.clientX - drag.x, dy = e.clientY - drag.y; if (Math.abs(dx) + Math.abs(dy) > 4) moved = true; lb.scrollLeft = drag.l - dx; lb.scrollTop = drag.t - dy; });
+    window.addEventListener('mouseup', function () { setTimeout(function () { drag = null; }, 0); });
+    big.addEventListener('click', function (e) { if (moved) { e.stopImmediatePropagation(); moved = false; } }, true);
     lb.addEventListener('click', function () { lb.classList.remove('open'); });
+    setHint();
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') lb.classList.remove('open'); });
   }
   window.addEventListener('scroll', onScroll, { passive: true });
