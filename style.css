@@ -280,3 +280,4 @@ nav ul a:hover::after { transform: scaleX(1); transform-origin: left; }
   .shot.scroll { height: 420px; }
 }
 .shot.reveal { transition: opacity .7s ease, transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease; }
+.caption-note { font-size: 14px; color: var(--muted); margin-top: -8px; }
