@@ -43,7 +43,7 @@
   }
 
   // Reveal on scroll, with a small stagger for siblings
-  document.querySelectorAll('section .eyebrow, section h2, section .lead, .card, .stat, .insight, .quote, .skills li, .two-col p, .case-hero > .wrap > *, section .narrow > p, .placeholder, .contact .links, .next-case, .duo-item, .findings li, .decision, .frame, .design-block h3, .design-block p, .checklist li')
+  document.querySelectorAll('section .eyebrow, section h2, section .lead, .card, .stat, .insight, .quote, .skills li, .two-col p, .case-hero > .wrap > *, section .narrow > p, .placeholder, .contact .links, .next-case, .duo-item, .findings li, .decision, .frame, .design-block h3, .design-block p, .checklist li, .shot')
     .forEach(function (el) { if (!el.closest('.hero')) el.classList.add('reveal'); });
   var items = document.querySelectorAll('.reveal');
   if (!('IntersectionObserver' in window) || reduce) {
@@ -73,6 +73,18 @@
       var h = document.documentElement.scrollHeight - window.innerHeight;
       bar.style.transform = 'scaleX(' + (h > 0 ? y / h : 0) + ')';
     }
+  }
+
+  // Lightbox for design screenshots
+  var shots = document.querySelectorAll('.shot img');
+  if (shots.length) {
+    var lb = document.createElement('div'); lb.className = 'lightbox'; lb.setAttribute('role','dialog');
+    var big = document.createElement('img'); lb.appendChild(big); document.body.appendChild(lb);
+    shots.forEach(function (img) {
+      img.parentNode.addEventListener('click', function () { big.src = img.src; big.alt = img.alt; lb.scrollTop = 0; lb.classList.add('open'); });
+    });
+    lb.addEventListener('click', function () { lb.classList.remove('open'); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') lb.classList.remove('open'); });
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
