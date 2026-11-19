@@ -398,3 +398,11 @@ h3.sub { font-size: 22px; margin-top: 48px; }
 html { visibility: visible !important; }
 .shots.three { grid-template-columns: repeat(3, 1fr); align-items: start; }
 @media (max-width: 820px) { .shots.three { grid-template-columns: 1fr; } }
+
+/* How I use AI */
+.ai-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 36px; }
+.ai-item { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 26px; }
+.ai-item span { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+.ai-item h3 { font-size: 21px; margin: 10px 0 8px; }
+.ai-item p { color: var(--muted); font-size: 15px; }
+@media (max-width: 820px) { .ai-grid { grid-template-columns: 1fr; } }
