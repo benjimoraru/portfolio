@@ -365,3 +365,8 @@ h3.sub { font-size: 22px; margin-top: 48px; }
 .lightbox.zoom.full { display: block; padding: 24px; }
 .lightbox.zoom.full img { max-width: none; width: 6000px; border-radius: 8px; cursor: grab; transform: none; }
 .lightbox.zoom.full img:active { cursor: grabbing; }
+.tl2.tall { height: 440px; margin-top: -24px; }
+.tl2 li.far .lab { top: calc(50% + 150px); }
+.tl2 li.far .lab::before { content: ''; position: absolute; left: -1px; top: -94px; height: 94px; border-left: 1px dashed var(--line); }
+.tl2 li.r2 .dot { border-color: #7a52e0; }
+@media (max-width: 1000px) { .tl2.tall { height: auto; margin-top: 28px; } .tl2 li.far .lab::before { display: none; } }
