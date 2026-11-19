@@ -281,3 +281,6 @@ nav ul a:hover::after { transform: scaleX(1); transform-origin: left; }
 }
 .shot.reveal { transition: opacity .7s ease, transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease; }
 .caption-note { font-size: 14px; color: var(--muted); margin-top: -8px; }
+.shot-item { min-width: 0; }
+.shot-cap { margin-top: 10px; font-size: 13px; color: var(--muted); text-align: center; }
+.shots.phones .shot-item { width: 100%; }
