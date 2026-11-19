@@ -393,3 +393,6 @@ h3.sub { font-size: 22px; margin-top: 48px; }
 .funnel .fb i.b { background: var(--line); } .funnel .fb i.a { background: var(--grad); }
 .funnel em { font-style: normal; font-size: 13px; color: var(--muted); font-family: 'Outfit', sans-serif; }
 @media (max-width: 600px) { .funnel li { grid-template-columns: 96px 1fr 1fr; gap: 8px; } .funnel .fb i { width: calc(var(--w) / 17 * 70px); } }
+
+/* FOUC guard: page stays hidden until this file has loaded */
+html { visibility: visible !important; }
