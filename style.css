@@ -396,3 +396,5 @@ h3.sub { font-size: 22px; margin-top: 48px; }
 
 /* FOUC guard: page stays hidden until this file has loaded */
 html { visibility: visible !important; }
+.shots.three { grid-template-columns: repeat(3, 1fr); align-items: start; }
+@media (max-width: 820px) { .shots.three { grid-template-columns: 1fr; } }
