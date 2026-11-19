@@ -318,3 +318,6 @@ nav ul a:hover::after { transform: scaleX(1); transform-origin: left; }
 @media (max-width: 820px) { .hypos li { grid-template-columns: 1fr 40px; } .hypos .hbar { grid-column: 1 / -1; grid-row: 2; } }
 .hypos.scores .hbar i.sc { width: calc(var(--w) / 5 * 100%); background: var(--grad); }
 h3.sub { font-size: 22px; margin-top: 48px; }
+.todos { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.todos li { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; padding: 7px 14px 7px 7px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); }
+.todos li b { font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 12px; min-width: 24px; height: 24px; display: inline-grid; place-items: center; border-radius: 999px; background: var(--grad); color: #fff; }
