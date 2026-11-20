@@ -202,7 +202,8 @@
     if (m === 'm') spill();
     set(function (it) { return m === 'd' ? it.d : m === 's' ? it.s : it.m; });
   }
-  host.addEventListener('click', function () { go(mode === 'd' ? 'm' : mode === 'm' ? 's' : 'd'); });
+  function next() { go(mode === 'd' ? 'm' : mode === 'm' ? 's' : 'd'); }
+  host.addEventListener('click', next);
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   go('m');
   if (reduce) return;
@@ -217,10 +218,23 @@
     };
     var listen = function () { window.addEventListener('deviceorientation', onTilt); };
     listen();
-    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+    /* Shake the phone to go to the next step */
+    var last = null, lastShake = 0;
+    var onMotion = function (e) {
+      var a = e.accelerationIncludingGravity; if (!a || a.x == null) return;
+      if (last) {
+        var d = Math.abs(a.x - last.x) + Math.abs(a.y - last.y) + Math.abs(a.z - last.z), now = Date.now();
+        if (d > 28 && now - lastShake > 1200) { lastShake = now; next(); }
+      }
+      last = { x: a.x, y: a.y, z: a.z };
+    };
+    var listenMotion = function () { window.addEventListener('devicemotion', onMotion); };
+    listenMotion();
+    if (typeof DeviceOrientationEvent.requestPermission === 'function' || (window.DeviceMotionEvent && typeof DeviceMotionEvent.requestPermission === 'function')) {
       host.addEventListener('click', function ask() {
         host.removeEventListener('click', ask);
-        DeviceOrientationEvent.requestPermission().then(function (r) { if (r === 'granted') listen(); }).catch(function () {});
+        if (typeof DeviceOrientationEvent.requestPermission === 'function') DeviceOrientationEvent.requestPermission().then(function (r) { if (r === 'granted') listen(); }).catch(function () {});
+        if (window.DeviceMotionEvent && typeof DeviceMotionEvent.requestPermission === 'function') DeviceMotionEvent.requestPermission().then(function (r) { if (r === 'granted') listenMotion(); }).catch(function () {});
       });
     }
   }
