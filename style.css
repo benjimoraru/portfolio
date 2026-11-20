@@ -603,4 +603,9 @@ nav a.on { color: var(--accent); }
 .yp svg { display: block; filter: drop-shadow(0 3px 4px rgba(0,0,0,.35)); }
 .yp-meeple { transition: transform .45s cubic-bezier(.3,1.6,.5,1); cursor: pointer; }
 .seat-eyebrow { color: #5fd3c0 !important; }
+
+.hero-grid > .ht-hint { grid-column: 2; margin: -64px 0 0; position: relative; text-align: center; font-size: 13px; letter-spacing: .04em; color: var(--muted); transition: opacity .4s ease; }
+.ht-hint::before { content: '↻ '; color: #5fd3c0; }
+.ht-hint.used { opacity: .6; }
+@media (max-width: 1000px) { .hero-grid > .ht-hint { grid-column: 1; margin-top: -8px; } }
 html { visibility: visible !important; }

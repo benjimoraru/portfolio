@@ -205,12 +205,16 @@
   fit(); window.addEventListener('resize', fit);
   var d12el = (items.filter(function (it) { return it.k === 'd12'; })[0] || {}).el;
   var mode = 'm';
+  var touch = window.matchMedia('(hover: none)').matches;
+  var hint = document.createElement('p'); hint.className = 'ht-hint'; host.parentNode.insertBefore(hint, host.nextSibling);
+  function setHint() { hint.textContent = (touch ? 'Tap or shake to ' : 'Click to ') + (mode === 'm' ? 'sort' : mode === 's' ? 'deal' : 'shuffle'); }
   function go(m) {
     mode = m; host.classList.toggle('dealt', m === 'd');
     if (m === 'm') { spill(); var t = d12el && d12el.querySelector('text'); if (t) t.textContent = Math.floor(Math.random() * 4); }
     set(function (it) { return m === 'd' ? it.d : m === 's' ? it.s : it.m; });
+    setHint();
   }
-  function next() { go(mode === 'd' ? 'm' : mode === 'm' ? 's' : 'd'); }
+  function next() { hint.classList.add('used'); go(mode === 'd' ? 'm' : mode === 'm' ? 's' : 'd'); }
   host.addEventListener('click', next);
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   go('m');
