@@ -230,8 +230,8 @@ nav ul a:hover::after { transform: scaleX(1); transform-origin: left; }
 .chip.dot::before { animation: pulse 2s ease-in-out infinite; }
 @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(48,209,88,.55); } 50% { box-shadow: 0 0 0 6px rgba(48,209,88,0); } }
 
-.button { transition: transform .2s ease, background .2s ease, color .2s ease; }
-.button:hover { transform: none; }
+.button { transition: transform .25s cubic-bezier(.3,1.6,.5,1), background .2s ease, color .2s ease; }
+.button:hover { transform: translateY(-2px); }
 .button:not(.primary):hover { background: var(--ink); color: var(--bg); }
 
 .reveal.in.stat:hover, .reveal.in.duo-item:hover { transform: translateY(-4px); }
@@ -532,7 +532,7 @@ nav a.on { color: var(--accent); }
   background: linear-gradient(90deg, #ffd466 0%, #ff9f8a 25%, #a98bff 50%, #ff9f8a 75%, #ffd466 100%);
   background-size: 200% 100%; background-position: 0% 50%;
   border-color: transparent; color: #110c18;
-  transition: background-position .7s cubic-bezier(.2,.7,.2,1), transform .2s ease, box-shadow .4s ease;
+  transition: background-position .7s cubic-bezier(.2,.7,.2,1), transform .25s cubic-bezier(.3,1.6,.5,1), box-shadow .4s ease;
 }
 .button.primary:hover { background-position: 100% 50%; box-shadow: 0 0 24px rgba(169,139,255,.35), 0 0 10px rgba(255,159,138,.25); }
 @media (prefers-reduced-motion: reduce) { .button.primary { transition: none; } }
