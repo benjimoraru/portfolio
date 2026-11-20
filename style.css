@@ -557,4 +557,6 @@ nav a.on { color: var(--accent); }
 .game p { color: var(--muted); font-size: 15px; line-height: 1.55; flex: 1; }
 .game .more { font-size: 14px; text-decoration: none; }
 .game.fav { border-color: rgba(169,139,255,.45); background: rgba(169,139,255,.06); }
+
+#games .lead { max-width: none; text-wrap: balance; }
 html { visibility: visible !important; }
