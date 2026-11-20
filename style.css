@@ -575,7 +575,7 @@ nav a.on { color: var(--accent); }
 .hero-table.dealt .ht-seat, .hero-table.dealt .ht-board { opacity: 1; }
 .ht-seat.s0 { left: 12px; top: 34px; }
 .ht-seat.s2 { right: 12px; top: 34px; text-align: right; }
-.ht-seat.s1 { left: 105px; width: 256px; text-align: center; top: 302px; }
+.ht-seat.s1 { left: 105px; width: 256px; text-align: center; top: 366px; }
 @media (max-width: 1000px) {
   .hero-grid { grid-template-columns: 1fr; gap: 24px; }
   .hero-table { max-width: 480px; margin: 0 auto; }

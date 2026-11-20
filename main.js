@@ -187,7 +187,7 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
     var k;
     if (it.o === 0) { k = cnt[0]++; it.d = { x: 10, y: 60 + k * 50, r: 0 }; }
     else if (it.o === 2) { k = cnt[2]++; it.d = { x: CW - 56, y: 60 + k * 50, r: 0 }; }
-    else if (it.o === 1) { k = cnt[1]++; it.d = { x: cx - 135 + k * 56, y: 330, r: 0 }; }
+    else if (it.o === 1) { k = cnt[1]++; it.d = { x: cx - 135 + k * 56, y: 316, r: 0 }; }
     else if (it.k === 'deck') { k = nc.deck++; it.d = { x: cx - 130 + k * 52, y: 78, r: k ? 6 : -4 }; }
     else if (it.k === 'wdie') { k = nc.wdie++; it.d = { x: cx + 6 + k * 38, y: 88, r: [-8, 4, 10][k] }; }
     else if (it.k === 'cube') { k = nc.cube++; it.d = { x: cx - 120 + k * 30, y: 158, r: 0 }; }
