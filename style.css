@@ -526,3 +526,13 @@ nav a.on { color: var(--accent); }
 .more-links { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 12px; } .more-links .more { margin-top: 0; }
 .rh-actions button.button { background: none; color: inherit; font: inherit; font-weight: 600; cursor: pointer; }
 .button.primary { font-weight: 700; }
+
+/* Primary button: moving gradient */
+.button.primary {
+  background: linear-gradient(90deg, #ffcc55 0%, #ffd466 30%, #ff9f8a 60%, #a98bff 100%);
+  background-size: 220% 100%; background-position: 0% 50%;
+  border-color: transparent; color: #110c18;
+  transition: background-position .7s cubic-bezier(.2,.7,.2,1), transform .2s ease, box-shadow .4s ease;
+}
+.button.primary:hover { background-position: 100% 50%; box-shadow: 0 10px 30px rgba(169,139,255,.35), 0 4px 14px rgba(255,159,138,.25); }
+@media (prefers-reduced-motion: reduce) { .button.primary { transition: none; } }
