@@ -682,4 +682,7 @@ nav a.on { color: var(--accent); }
 .mini-go { margin-top: auto; padding-top: 8px; font-size: 13.5px; font-weight: 600; color: var(--accent); transition: transform .3s ease; }
 .mini:hover .mini-go { transform: translateX(5px); }
 @media print { .no-print { display: none !important; } }
+
+.mini-score { white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+.mini-score em { font-style: normal; font-weight: 500; color: #cfc8da; margin-left: 2px; }
 html { visibility: visible !important; }
