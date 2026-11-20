@@ -199,9 +199,8 @@
   }
   host.addEventListener('click', function () { go(mode === 'd' ? 'm' : mode === 'm' ? 's' : 'd'); });
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduce) { go('d'); return; }
   go('m');
-  setTimeout(function () { if (mode === 'm') go('d'); }, 900);
+  if (reduce) return;
   function cur(it) { return mode === 'd' ? it.d : mode === 's' ? it.s : it.m; }
   host.addEventListener('mouseenter', function () { set(cur, true); });
   host.addEventListener('mouseleave', function () { set(cur); });
