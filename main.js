@@ -132,12 +132,11 @@
       : '<rect x="5" y="8" width="14" height="13" rx="4" fill="#e8672c"/><path d="M7 10 C7 4 17 4 17 10 Z" fill="#b9a43a"/><rect x="10.5" y="10" width="3" height="5" rx="1" fill="#b9a43a"/><rect x="7" y="16" width="10" height="3" rx="1" fill="#c9521f"/>'; }
   };
   var G = '#ffd466', K = '#2a2235';
-  var packBack = '<path d="M9.5 5.2 C9.5 2.2 14.5 2.2 14.5 5.2" fill="none" stroke="' + G + '" stroke-width="1.6" stroke-linecap="round"/>'
-    + '<path d="M3.6 12 V19.5" stroke="' + G + '" stroke-width="1.6" stroke-linecap="round"/><path d="M20.4 12 V19.5" stroke="' + G + '" stroke-width="1.6" stroke-linecap="round"/>'
-    + '<path d="M5 9.5 C5 6.2 7.6 4.6 12 4.6 C16.4 4.6 19 6.2 19 9.5 V20.4 C19 21.8 18 22.8 16.6 22.8 H7.4 C6 22.8 5 21.8 5 20.4 Z" fill="' + G + '"/>'
-    + '<path d="M6.6 9.6 C6.6 7.4 9 6.2 12 6.2 C15 6.2 17.4 7.4 17.4 9.6 V12.2 C17.4 12.9 16.9 13.4 16.2 13.4 H7.8 C7.1 13.4 6.6 12.9 6.6 12.2 Z" fill="none" stroke="' + K + '" stroke-width="1.1"/>'
-    + '<rect x="11.1" y="12" width="1.8" height="3.6" fill="' + K + '"/><rect x="10.3" y="14.6" width="3.4" height="2.2" rx=".5" fill="' + G + '" stroke="' + K + '" stroke-width=".9"/>'
-    + '<rect x="7.6" y="17.4" width="8.8" height="4" rx="1.4" fill="none" stroke="' + K + '" stroke-width="1.1"/>';
+  var packBack = '<path d="M10 6.5 V5 C10 3.6 14 3.6 14 5 V6.5" fill="none" stroke="' + G + '" stroke-width="1.6" stroke-linecap="round"/>'
+    + '<rect x="5" y="6.5" width="14" height="16" rx="3.5" fill="' + G + '"/>'
+    + '<path d="M5.6 11.5 H18.4" stroke="' + K + '" stroke-width="1.1"/>'
+    + '<rect x="11.2" y="11.5" width="1.6" height="3.2" fill="' + K + '"/>'
+    + '<rect x="7.8" y="16.5" width="8.4" height="4" rx="1.2" fill="none" stroke="' + K + '" stroke-width="1.1"/>';
   var cardIc = ['mega', 'book', 'hammer'];
   function sv(w, h, body) { return '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '">' + body + '</svg>'; }
   var draw = {
