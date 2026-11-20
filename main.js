@@ -324,13 +324,21 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
     });
   }
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { render(1); return; }
-  var raf = 0, cur = 0;
+  /* The pieces follow the scroll with a soft delay: the target comes from the scroll, the pieces ease towards it */
+  var cur = 0, target = 0, loop = 0;
   function measure() {
-    raf = 0; var vh = window.innerHeight, y = window.scrollY, top = pile.getBoundingClientRect().top + y;
+    var vh = window.innerHeight, y = window.scrollY, top = pile.getBoundingClientRect().top + y;
     var start = top - vh * 0.95, end = (document.scrollingElement || document.documentElement).scrollHeight - vh - 2;
-    cur = end <= start ? 1 : Math.max(0, Math.min(1, (y - start) / (end - start))); render(cur);
+    target = end <= start ? 1 : Math.max(0, Math.min(1, (y - start) / (end - start)));
+    if (!loop) loop = requestAnimationFrame(tick);
   }
-  window.addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(measure); }, { passive: true });
+  function tick() {
+    var diff = target - cur;
+    cur = Math.abs(diff) < 0.0008 ? target : cur + diff * 0.07;
+    render(cur);
+    loop = cur === target ? 0 : requestAnimationFrame(tick);
+  }
+  window.addEventListener('scroll', measure, { passive: true });
   window.addEventListener('resize', measure); measure();
   meeple.el.addEventListener('mouseenter', function () { if (cur < 1) return; meeple.w = { x: Math.random() * 12 - 6, y: -6 - Math.random() * 6, r: Math.random() * 24 - 12 }; render(cur); });
   meeple.el.addEventListener('mouseleave', function () { meeple.w = { x: 0, y: 0, r: 0 }; render(cur); });
