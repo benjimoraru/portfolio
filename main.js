@@ -251,3 +251,11 @@
   host.addEventListener('mouseenter', function () { set(cur, true); });
   host.addEventListener('mouseleave', function () { set(cur); });
 })();
+
+/* Let's talk: player 4 takes the seat when the section comes into view */
+(function () {
+  var s = document.querySelector('.seats'); if (!s) return;
+  if (!('IntersectionObserver' in window)) { s.classList.add('on'); return; }
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { setTimeout(function () { s.classList.add('on'); }, 250); io.disconnect(); } }); }, { threshold: .6 });
+  io.observe(s);
+})();
