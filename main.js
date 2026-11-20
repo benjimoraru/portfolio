@@ -355,3 +355,30 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
     c.addEventListener('mouseleave', function () { c.style.transform = ''; });
   });
 })();
+
+/* Jump chips: smooth jump on click, the active chip follows the scroll */
+(function () {
+  var bar = document.querySelector('.jump'); if (!bar) return;
+  var chips = [].slice.call(bar.querySelectorAll('.jchip'));
+  var secs = chips.map(function (c) { return document.getElementById(c.dataset.t); });
+  var lock = 0;
+  function setOn(i) {
+    chips.forEach(function (c, j) { c.classList.toggle('on', j === i); });
+    var c = chips[i], w = bar.querySelector('.wrap');
+    if (c && w.scrollWidth > w.clientWidth) w.scrollTo({ left: c.offsetLeft - 16, behavior: 'smooth' });
+  }
+  chips.forEach(function (c, i) {
+    c.addEventListener('click', function (e) {
+      e.preventDefault(); setOn(i); lock = Date.now() + 900;
+      secs[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+  var raf = 0, cur = 0;
+  function spy() {
+    raf = 0; if (Date.now() < lock) return;
+    var line = 140, i = 0;
+    secs.forEach(function (s, j) { if (s && s.getBoundingClientRect().top <= line) i = j; });
+    if (i !== cur) { cur = i; setOn(i); }
+  }
+  window.addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(spy); }, { passive: true });
+})();
