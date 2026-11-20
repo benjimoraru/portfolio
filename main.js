@@ -209,7 +209,7 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
   fit(); window.addEventListener('resize', fit);
   var d12el = (items.filter(function (it) { return it.k === 'd12'; })[0] || {}).el;
   var mode = 'm';
-  var touch = window.matchMedia('(hover: none)').matches;
+  var touch = window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
   var hint = document.createElement('p'); hint.className = 'ht-hint'; host.parentNode.insertBefore(hint, host.nextSibling);
   function setHint() { hint.textContent = (touch ? 'Tap or shake to ' : 'Click to ') + (mode === 'm' ? 'sort' : mode === 's' ? 'deal' : 'shuffle'); }
   function go(m) {
@@ -226,18 +226,18 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   go('m');
   if (reduce) return;
-  /* Phones: pieces drift a little as the phone tilts */
-  if (window.matchMedia('(hover: none)').matches && 'DeviceOrientationEvent' in window) {
+  /* Phones (iOS Safari/Chrome and Android): pieces drift as the phone tilts, and a shake goes to the next step */
+  var touchy = window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
+  if (touchy && ('DeviceOrientationEvent' in window || 'DeviceMotionEvent' in window)) {
     items.forEach(function (it) { it.el.style.setProperty('--k', (0.5 + Math.random()).toFixed(2)); });
-    var raf = 0, gx = 0, gy = 0;
-    var clamp = function (v) { return Math.max(-30, Math.min(30, v || 0)); };
+    var raf = 0, gx = 0, gy = 0, base = null;
+    var clamp = function (v) { return Math.max(-25, Math.min(25, v)); };
     var onTilt = function (e) {
-      gx = clamp(e.gamma) / 30 * 7; gy = clamp((e.beta || 45) - 45) / 30 * 7;
+      if (e.gamma == null || e.beta == null) return;
+      if (!base) base = { b: e.beta, g: e.gamma };
+      gx = clamp(e.gamma - base.g) / 25 * 8; gy = clamp(e.beta - base.b) / 25 * 8;
       if (!raf) raf = requestAnimationFrame(function () { raf = 0; host.style.setProperty('--gx', gx.toFixed(2)); host.style.setProperty('--gy', gy.toFixed(2)); });
     };
-    var listen = function () { window.addEventListener('deviceorientation', onTilt); };
-    listen();
-    /* Shake the phone to go to the next step */
     var last = null, lastShake = 0;
     var onMotion = function (e) {
       var now = Date.now(), hit = false, a = e.acceleration, g = e.accelerationIncludingGravity;
@@ -248,14 +248,25 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
       }
       if (hit && now - lastShake > 1000) { lastShake = now; next(); }
     };
-    var listenMotion = function () { window.addEventListener('devicemotion', onMotion); };
-    listenMotion();
-    if (typeof DeviceOrientationEvent.requestPermission === 'function' || (window.DeviceMotionEvent && typeof DeviceMotionEvent.requestPermission === 'function')) {
-      host.addEventListener('click', function ask() {
-        host.removeEventListener('click', ask);
-        if (typeof DeviceOrientationEvent.requestPermission === 'function') DeviceOrientationEvent.requestPermission().then(function (r) { if (r === 'granted') listen(); }).catch(function () {});
-        if (window.DeviceMotionEvent && typeof DeviceMotionEvent.requestPermission === 'function') DeviceMotionEvent.requestPermission().then(function (r) { if (r === 'granted') listenMotion(); }).catch(function () {});
-      });
+    var on = false;
+    var listenAll = function () {
+      if (on) return; on = true;
+      window.addEventListener('deviceorientation', onTilt);
+      window.addEventListener('devicemotion', onMotion);
+    };
+    /* iOS 13+ asks for one "Motion & Orientation" permission, and only from a tap.
+       Android and older iOS just send the events. */
+    var askFn = (window.DeviceMotionEvent && typeof DeviceMotionEvent.requestPermission === 'function') ? function () { return DeviceMotionEvent.requestPermission(); }
+      : (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function') ? function () { return DeviceOrientationEvent.requestPermission(); } : null;
+    if (!askFn) { listenAll(); }
+    else {
+      var asked = false;
+      var ask = function () {
+        if (asked) return; asked = true;
+        try { askFn().then(function (r) { if (r === 'granted') listenAll(); else asked = false; }).catch(function () { asked = false; }); } catch (err) { asked = false; }
+      };
+      host.addEventListener('click', ask);
+      hint.addEventListener('click', ask);
     }
   }
   function cur(it) { return mode === 'd' ? it.d : mode === 's' ? it.s : it.m; }
