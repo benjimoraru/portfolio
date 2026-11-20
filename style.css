@@ -525,3 +525,4 @@ nav a.on { color: var(--accent); }
 .print-only { display: none; }
 .more-links { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 12px; } .more-links .more { margin-top: 0; }
 .rh-actions button.button { background: none; color: inherit; font: inherit; font-weight: 600; cursor: pointer; }
+.button.primary { font-weight: 700; }
