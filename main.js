@@ -270,12 +270,24 @@
     + '<rect x="11.2" y="4.6" width="1.6" height="11.2" rx=".8" fill="#1e8a7b"/><path d="M12.4 15.6 L12.9 18" stroke="#1e8a7b" stroke-width="1.3" stroke-linecap="round"/>'
     + '<rect x="10.3" y="10.2" width="3.4" height="1.3" rx=".5" fill="#3a3245"/>';
   var defs = [
+    { k: 'order', html: sv(40, 40, '<circle cx="17" cy="17" r="15" fill="' + T + '" stroke="' + D + '" stroke-width="2"/><path d="M11 20 L17 13 L23 20" stroke="' + D + '" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>', '0 0 34 34'), x: -50, y: -2, r: -10 },
     { k: 'loco', html: sv(34, 24, '<rect x="2" y="9" width="24" height="12" rx="2" fill="' + T + '"/><rect x="24" y="3" width="13" height="18" rx="2" fill="' + T + '"/><rect x="27" y="6" width="7" height="5" rx="1" fill="' + D + '"/><rect x="7" y="2" width="5" height="8" fill="' + T + '"/><circle cx="9" cy="24" r="4" fill="' + D + '" stroke="' + T + '" stroke-width="2"/><circle cx="20" cy="24" r="4" fill="' + D + '" stroke="' + T + '" stroke-width="2"/><circle cx="31" cy="24" r="4" fill="' + D + '" stroke="' + T + '" stroke-width="2"/>', '0 0 42 30'), x: -32, y: 0, r: -4 },
     { k: 'dino', html: sv(36, 25, '<path d="M1 19 C6 18 9 15 14 14 C20 12 26 13 29 15 L32 6 C33 3 37 2 40 3 C43 4 44 7 41 8 L37 8 L35 17 C37 20 36 23 33 24 L33 31 L29 31 L28 25 L19 25 L18 31 L14 31 L14 24 C10 23 6 21 1 19 Z" fill="' + T + '"/>', '0 0 46 32'), x: 2, y: 0, r: 3 },
     { k: 'card', html: sv(22, 30, '<rect x="1" y="1" width="30" height="42" rx="4" fill="' + T + '"/><rect x="4" y="4" width="24" height="36" rx="3" fill="#fbf8f2"/><g transform="translate(4,9)">' + tpack + '</g>', '0 0 32 44'), x: 20, y: -6, r: 12 },
-    { k: 'order', html: sv(24, 24, '<circle cx="17" cy="17" r="15" fill="' + T + '" stroke="' + D + '" stroke-width="2"/><path d="M11 20 L17 13 L23 20" stroke="' + D + '" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>', '0 0 34 34'), x: -50, y: -2, r: -10 },
     { k: 'meeple', html: sv(40, 40, '<path d="M18 2a6 6 0 0 1 6 6a6 6 0 0 1-1.5 4L33 15a3 3 0 0 1-1 5.5L24 20l4 13a2 2 0 0 1-2 2h-5l-3-8-3 8h-5a2 2 0 0 1-2-2l4-13-8 .5a3 3 0 0 1-1-5.5L13.5 12A6 6 0 0 1 12 8a6 6 0 0 1 6-6z" fill="' + T + '"/>', '0 0 36 36'), x: -18, y: -22, r: 0 }
   ];
+  var totop = document.createElement('button');
+  totop.className = 'totop'; totop.setAttribute('aria-label', 'Back to top');
+  totop.innerHTML = '<svg width="40" height="40" viewBox="0 0 34 34"><circle cx="17" cy="17" r="15" fill="' + T + '" stroke="' + D + '" stroke-width="2"/><path d="M11 20 L17 13 L23 20" stroke="' + D + '" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  document.body.appendChild(totop);
+  totop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  var hero = document.querySelector('.hero');
+  function btnStart(d) {
+    var b = totop.getBoundingClientRect(), pr = pile.getBoundingClientRect();
+    return { x: b.left - (pr.left + pr.width / 2), y: b.top - (pr.bottom - d.h0) };
+  }
+  function syncBtn() { totop.classList.toggle('show', window.scrollY > (hero ? hero.offsetHeight * 0.8 : 600)); }
+  window.addEventListener('scroll', syncBtn, { passive: true }); syncBtn();
   var n = defs.length;
   defs.forEach(function (d, i) {
     var el = document.createElement('span'); el.className = 'yp yp-' + d.k; el.innerHTML = d.html; pile.appendChild(el); d.el = el;
@@ -292,6 +304,11 @@
       if (d === meeple) {
         var e = back(t);
         x = -20 + d.w.x; y = 14 + (-3 - 14) * e + d.w.y; r = d.w.r; sc = 0.3 + 0.7 * e; op = Math.min(1, t * 2.5);
+      } else if (d.k === 'order') {
+        var k = Math.pow(t, 2.6), st = btnStart(d);
+        x = st.x + (-d.w0 / 2 - st.x) * k; y = st.y + (-d.h0 / 2 + 4 - st.y) * k;
+        r = k * 300; sc = 1; op = t <= 0 ? 0 : 1 - Math.max(0, (k - 0.75) / 0.25);
+        totop.classList.toggle('gone', t > 0);
       } else {
         var k = Math.pow(t, 2.6);
         var ang = d.ang + k * 2.2, rad = d.rad * (1 - k);
