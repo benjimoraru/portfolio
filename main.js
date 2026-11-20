@@ -120,7 +120,7 @@
 (function () {
   var host = document.querySelector('.hero-table'); if (!host) return;
   var cv = host.querySelector('.ht-canvas'), CW = 480, CH = 400, D = '#110c18';
-  var P = ['#a98bff', '#ff9f8a', '#ffd466'], DARK = ['#7a52e0', '#d0644d', '#c99a1a'];
+  var P = ['#a98bff', '#ffd466', '#ff9f8a'], DARK = ['#7a52e0', '#c99a1a', '#d0644d'];
   var ic = {
     mega: function (m) { return m ? '<g fill="' + m + '"><path d="M3 10 L6 10 L15 5 L15 19 L6 14 L3 14 Z"/><path d="M8 15 L10 21" stroke="' + m + '" stroke-width="2.4" stroke-linecap="round"/></g>'
       : '<path d="M3 10 L6 10 L15 5 L15 19 L6 14 L3 14 Z" fill="#2a9d9a"/><ellipse cx="15.5" cy="12" rx="2.2" ry="7" fill="#e6f4f3" stroke="#2a9d9a" stroke-width="1.4"/><path d="M8 15 L10 21" stroke="#f08c2e" stroke-width="2.6" stroke-linecap="round"/>'; },
