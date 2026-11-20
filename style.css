@@ -628,4 +628,18 @@ nav a.on { color: var(--accent); }
 @media (max-width: 600px) { .totop { right: 16px; bottom: 16px; } }
 
 .hero-table, .ht-hint { overflow-anchor: none; }
+
+
+/* Final score coin on case study cards */
+.card-visual { position: relative; }
+.score-coin { position: absolute; right: 22px; top: 22px; z-index: 2; width: 92px; height: 92px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 10px 22px rgba(0,0,0,.35), inset 0 0 0 5px rgba(0,0,0,.08); transform: rotate(-8deg); transition: transform .45s cubic-bezier(.3,1.6,.5,1); }
+.score-coin::after { content: ''; position: absolute; inset: 7px; border-radius: 50%; border: 1.5px solid rgba(0,0,0,.18); }
+.score-coin b { font-size: 22px; font-weight: 700; line-height: 1; letter-spacing: -.02em; }
+.score-coin span { font-size: 10px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; margin-top: 4px; }
+.score-coin.gold { background: #e9b949; color: #5a3f08; }
+.score-coin.silver { background: #cfd3da; color: #3f444d; }
+.card:hover .score-coin { transform: rotate(4deg) translateY(-4px); }
+.final-score { font-size: 14px; color: var(--ink) !important; margin-top: 14px !important; }
+.final-score i { font-style: normal; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-right: 6px; }
+@media (max-width: 720px) { .score-coin { width: 76px; height: 76px; right: 14px; top: 14px; } .score-coin b { font-size: 18px; } .score-coin span { font-size: 9px; } }
 html { visibility: visible !important; }
