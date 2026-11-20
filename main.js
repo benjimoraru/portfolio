@@ -267,18 +267,27 @@
   var n = defs.length;
   defs.forEach(function (d, i) {
     var el = document.createElement('span'); el.className = 'yp yp-' + d.k; el.innerHTML = d.html; pile.appendChild(el); d.el = el;
-    d.sx = 140 + i * 60 + Math.random() * 50; d.sy = -50 + Math.random() * 70; d.sr = Math.random() * 140 - 70;
-    var a = i === n - 1 ? 0.62 : i * 0.14; d.a = a; d.b = i === n - 1 ? 1 : a + 0.38;
+    d.w0 = el.offsetWidth || 30; d.h0 = el.offsetHeight || 30;
+    d.ang = (-165 + i * 38 + Math.random() * 16) * Math.PI / 180; d.rad = 110 + Math.random() * 60; d.spin = Math.random() * 120 - 60;
+    if (i === n - 1) { d.a = 0.8; d.b = 1; } else { d.a = i * 0.17; d.b = d.a + 0.32; }
     d.w = { x: 0, y: 0, r: 0 };
   });
   var meeple = defs[n - 1];
-  function ease(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  function back(t) { var c = 1.7; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); }
   function render(p) {
     defs.forEach(function (d) {
-      var t = Math.max(0, Math.min(1, (p - d.a) / (d.b - d.a))), e = ease(t);
-      var x = d.sx + (d.x - d.sx) * e + d.w.x, y = d.sy + (d.y - d.sy) * e + d.w.y, r = d.sr + (d.r - d.sr) * e + d.w.r;
-      d.el.style.transform = 'translate(' + x + 'px,' + y + 'px) rotate(' + r + 'deg)';
-      d.el.style.opacity = Math.min(1, t * 3);
+      var t = Math.max(0, Math.min(1, (p - d.a) / (d.b - d.a))), x, y, r, sc, op;
+      if (d === meeple) {
+        var e = back(t);
+        x = -20 + d.w.x; y = 10 + (-26 - 10) * e + d.w.y; r = d.w.r; sc = 0.3 + 0.7 * e; op = Math.min(1, t * 2.5);
+      } else {
+        var k = Math.pow(t, 2.6);
+        var ang = d.ang + k * 2.2, rad = d.rad * (1 - k);
+        x = Math.cos(ang) * rad - d.w0 / 2; y = Math.sin(ang) * rad * 0.7 - d.h0 / 2 + 4;
+        r = d.spin * (1 - k) + k * 240; sc = 1 - 0.85 * k; op = t <= 0 ? 0 : Math.min(1, t * 6) * (1 - Math.max(0, (k - 0.75) / 0.25));
+      }
+      d.el.style.transform = 'translate(' + x + 'px,' + y + 'px) rotate(' + r + 'deg) scale(' + sc + ')';
+      d.el.style.opacity = op;
     });
   }
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { render(1); return; }
