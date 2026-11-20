@@ -1,3 +1,7 @@
+/* Always open at the top (no scroll restore on refresh), unless a #link was used */
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', function () { window.scrollTo(0, 0); }); }
+
 (function () {
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 

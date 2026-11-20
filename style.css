@@ -624,4 +624,6 @@ nav a.on { color: var(--accent); }
 .totop.show:hover svg { filter: drop-shadow(0 0 12px rgba(95,211,192,.7)); }
 .totop.gone, .totop.show.gone { opacity: 0; pointer-events: none; transition: none; }
 @media (max-width: 600px) { .totop { right: 16px; bottom: 16px; } }
+
+.hero-table, .ht-hint { overflow-anchor: none; }
 html { visibility: visible !important; }
