@@ -128,8 +128,14 @@
       : '<path d="M5 5 H16 V9.5 H11.5 L5 8.5 Z" fill="#5f5f6b"/><rect x="9.6" y="9.5" width="3.6" height="12" rx="1.2" fill="#f2c230"/><rect x="9.6" y="16" width="3.6" height="5.5" rx="1.2" fill="#d99a1c"/>'; },
     book: function (m) { return m ? '<rect x="5" y="3" width="14" height="18" rx="2" fill="' + m + '"/>'
       : '<rect x="5" y="3" width="14" height="18" rx="2" fill="#1f4f5a"/><rect x="15.5" y="3" width="1.6" height="18" fill="#8bd14f"/><circle cx="9.5" cy="15" r="1.6" fill="none" stroke="#6fd0e0" stroke-width="1"/>'; },
-    pack: function (m) { return m ? '<g fill="' + m + '"><rect x="5" y="8" width="14" height="13" rx="4"/><path d="M7 9 C7 4 17 4 17 9 Z"/></g>'
-      : '<rect x="5" y="8" width="14" height="13" rx="4" fill="#e8672c"/><path d="M7 10 C7 4 17 4 17 10 Z" fill="#b9a43a"/><rect x="10.5" y="10" width="3" height="5" rx="1" fill="#b9a43a"/><rect x="7" y="16" width="10" height="3" rx="1" fill="#c9521f"/>'; }
+    pack: function (m) {
+      return '<path d="M10 4.8 C10 2.2 14 2.2 14 4.8" fill="none" stroke="#9c8a2c" stroke-width="1.5" stroke-linecap="round"/>'
+        + '<path d="M6.2 6 C6.2 5 7 4.5 8 4.5 H16 C17 4.5 17.8 5 17.8 6 L19.4 19.6 C19.5 21 18.6 22 17.2 22 H6.8 C5.4 22 4.5 21 4.6 19.6 Z" fill="#e8672c"/>'
+        + '<path d="M5.8 7 C5.8 5.4 6.9 4.6 8 4.6 H16 C17.1 4.6 18.2 5.4 18.2 7 V10.8 C18.2 11.8 17.5 12.3 16.5 12.1 C13.5 11.5 10.5 11.5 7.5 12.1 C6.5 12.3 5.8 11.8 5.8 10.8 Z" fill="#b9a43a"/>'
+        + '<rect x="11.2" y="4.6" width="1.6" height="11.2" rx=".8" fill="#9c8a2c"/>'
+        + '<path d="M12.4 15.6 L12.9 18" stroke="#9c8a2c" stroke-width="1.3" stroke-linecap="round"/>'
+        + '<rect x="10.3" y="10.2" width="3.4" height="1.3" rx=".5" fill="#3a3245"/>';
+    }
   };
   var G = '#ffd466', K = '#2a2235';
   var packBack = '<path d="M10 6.5 V5 C10 3.6 14 3.6 14 5 V6.5" fill="none" stroke="' + G + '" stroke-width="1.6" stroke-linecap="round"/>'
