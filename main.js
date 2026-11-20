@@ -210,7 +210,7 @@
   function setHint() { hint.textContent = (touch ? 'Tap or shake to ' : 'Click to ') + (mode === 'm' ? 'sort' : mode === 's' ? 'deal' : 'shuffle'); }
   function go(m) {
     mode = m; host.classList.toggle('dealt', m === 'd');
-    if (m === 'm') { spill(); var t = d12el && d12el.querySelector('text'); if (t) t.textContent = Math.floor(Math.random() * 4); }
+    if (m === 'm') { spill(); var t = d12el && d12el.querySelector('text'); if (t) { var nv; do { nv = Math.floor(Math.random() * 4); } while (String(nv) === t.textContent); t.textContent = nv; } }
     set(function (it) { return m === 'd' ? it.d : m === 's' ? it.s : it.m; });
     setHint();
   }
