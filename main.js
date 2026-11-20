@@ -131,6 +131,13 @@
     pack: function (m) { return m ? '<g fill="' + m + '"><rect x="5" y="8" width="14" height="13" rx="4"/><path d="M7 9 C7 4 17 4 17 9 Z"/></g>'
       : '<rect x="5" y="8" width="14" height="13" rx="4" fill="#e8672c"/><path d="M7 10 C7 4 17 4 17 10 Z" fill="#b9a43a"/><rect x="10.5" y="10" width="3" height="5" rx="1" fill="#b9a43a"/><rect x="7" y="16" width="10" height="3" rx="1" fill="#c9521f"/>'; }
   };
+  var G = '#ffd466', K = '#2a2235';
+  var packBack = '<path d="M9.5 5.2 C9.5 2.2 14.5 2.2 14.5 5.2" fill="none" stroke="' + G + '" stroke-width="1.6" stroke-linecap="round"/>'
+    + '<path d="M3.6 12 V19.5" stroke="' + G + '" stroke-width="1.6" stroke-linecap="round"/><path d="M20.4 12 V19.5" stroke="' + G + '" stroke-width="1.6" stroke-linecap="round"/>'
+    + '<path d="M5 9.5 C5 6.2 7.6 4.6 12 4.6 C16.4 4.6 19 6.2 19 9.5 V20.4 C19 21.8 18 22.8 16.6 22.8 H7.4 C6 22.8 5 21.8 5 20.4 Z" fill="' + G + '"/>'
+    + '<path d="M6.6 9.6 C6.6 7.4 9 6.2 12 6.2 C15 6.2 17.4 7.4 17.4 9.6 V12.2 C17.4 12.9 16.9 13.4 16.2 13.4 H7.8 C7.1 13.4 6.6 12.9 6.6 12.2 Z" fill="none" stroke="' + K + '" stroke-width="1.1"/>'
+    + '<rect x="11.1" y="12" width="1.8" height="3.6" fill="' + K + '"/><rect x="10.3" y="14.6" width="3.4" height="2.2" rx=".5" fill="' + G + '" stroke="' + K + '" stroke-width=".9"/>'
+    + '<rect x="7.6" y="17.4" width="8.8" height="4" rx="1.4" fill="none" stroke="' + K + '" stroke-width="1.1"/>';
   var cardIc = ['mega', 'book', 'hammer'];
   function sv(w, h, body) { return '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '">' + body + '</svg>'; }
   var draw = {
@@ -140,7 +147,7 @@
     meeple: function (c) { return '<svg width="34" height="34" viewBox="0 0 36 36"><path d="M18 2a6 6 0 0 1 6 6a6 6 0 0 1-1.5 4L33 15a3 3 0 0 1-1 5.5L24 20l4 13a2 2 0 0 1-2 2h-5l-3-8-3 8h-5a2 2 0 0 1-2-2l4-13-8 .5a3 3 0 0 1-1-5.5L13.5 12A6 6 0 0 1 12 8a6 6 0 0 1 6-6z" fill="' + c + '"/></svg>'; },
     card: function (c, o) { var k = cardIc[o], m = DARK[o]; return sv(32, 44, '<rect x="1" y="1" width="30" height="42" rx="4" fill="' + c + '"/><rect x="4" y="4" width="24" height="36" rx="3" fill="#fbf8f2"/><g transform="translate(5,10) scale(.92)">' + ic[k]() + '</g><g transform="translate(6.5,33) scale(.32)">' + ic[k](m) + '</g><g transform="translate(18,33) scale(.32)">' + ic[k](m) + '</g>'); },
     deck: function () { var s = ''; for (var i = 3; i >= 0; i--) { var o = i * 2.5; s += '<rect x="' + (4 + o) + '" y="' + (4 + o) + '" width="32" height="44" rx="4" fill="#2a2235" stroke="#ffd466" stroke-width="1.2"/>'; }
-      return sv(44, 52, s + '<rect x="8" y="8" width="24" height="36" rx="2" fill="none" stroke="#ffd466" stroke-width=".8" opacity=".6"/><g transform="translate(9,15) scale(.92)">' + ic.pack('#ffd466') + '</g>'); },
+      return sv(44, 52, s + '<rect x="8" y="8" width="24" height="36" rx="2" fill="none" stroke="#ffd466" stroke-width=".8" opacity=".6"/><g transform="translate(8,14)">' + packBack + '</g>'); },
     wdie: function (c, o, f) { return sv(30, 30, '<rect x="1" y="1" width="28" height="28" rx="6" fill="#fbfaf7"/><rect x="1" y="24" width="28" height="5" rx="3" fill="#e2ddd2"/><g transform="translate(3.5,3) scale(.95)">' + ic[f]() + '</g>'); },
     cube: function (c) { return sv(20, 20, '<rect x="1" y="1" width="18" height="18" rx="3" fill="' + c + '"/><rect x="1" y="1" width="18" height="6" rx="3" fill="#fff" opacity=".25"/>'); },
     coin: function () { return sv(28, 28, '<circle cx="14" cy="14" r="13" fill="#e9b949"/><circle cx="14" cy="14" r="9.5" fill="none" stroke="#a87e1c" stroke-width="1.5"/><text x="14" y="18.5" font-size="12" font-weight="700" text-anchor="middle" fill="#6b4c0b" font-family="sans-serif">5</text>'); },
