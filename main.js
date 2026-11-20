@@ -84,7 +84,7 @@
       img.parentNode.addEventListener('click', function () {
         big.src = img.src; big.alt = img.alt; lb.scrollTop = 0; lb.scrollLeft = 0;
         lb.classList.remove('full');
-        lb.classList.toggle('zoom', img.parentNode.classList.contains('zoomable'));
+        lb.classList.toggle('zoom', img.parentNode.classList.contains('zoomable')); big.style.setProperty('--zw', (img.parentNode.dataset.zw || 6000) + 'px');
         lb.classList.add('open');
       });
     });

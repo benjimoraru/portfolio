@@ -363,7 +363,7 @@ h3.sub { font-size: 22px; margin-top: 48px; }
 .lightbox.zoom .lb-hint { display: block; position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); margin: 0; padding: 8px 16px; border-radius: 999px; background: rgba(17,12,24,.85); color: #f4f1f7; font-size: 13px; pointer-events: none; z-index: 2; }
 .lightbox.zoom img { cursor: zoom-in; }
 .lightbox.zoom.full { display: block; padding: 24px; }
-.lightbox.zoom.full img { max-width: none; width: 6000px; border-radius: 8px; cursor: grab; transform: none; }
+.lightbox.zoom.full img { max-width: none; width: var(--zw, 6000px); border-radius: 8px; cursor: grab; transform: none; }
 .lightbox.zoom.full img:active { cursor: grabbing; }
 .tl2.tall { height: 440px; margin-top: -24px; }
 .tl2 li.far .lab { top: calc(50% + 150px); }
