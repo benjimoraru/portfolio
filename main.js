@@ -252,10 +252,43 @@
   host.addEventListener('mouseleave', function () { set(cur); });
 })();
 
-/* Let's talk: player 4 takes the seat when the section comes into view */
+/* Let's talk: player 4's pieces gather in the seat as you scroll, and leave again on the way up */
 (function () {
-  var s = document.querySelector('.seats'); if (!s) return;
-  if (!('IntersectionObserver' in window)) { s.classList.add('on'); return; }
-  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { setTimeout(function () { s.classList.add('on'); }, 250); io.disconnect(); } }); }, { threshold: .6 });
-  io.observe(s);
+  var pile = document.querySelector('.seats .pile'); if (!pile) return;
+  var T = '#5fd3c0', D = '#110c18';
+  function sv(w, h, b, vb) { return '<svg width="' + w + '" height="' + h + '" viewBox="' + (vb || '0 0 ' + w + ' ' + h) + '">' + b + '</svg>'; }
+  var defs = [
+    { k: 'loco', html: sv(34, 24, '<rect x="2" y="9" width="24" height="12" rx="2" fill="' + T + '"/><rect x="24" y="3" width="13" height="18" rx="2" fill="' + T + '"/><rect x="27" y="6" width="7" height="5" rx="1" fill="' + D + '"/><rect x="7" y="2" width="5" height="8" fill="' + T + '"/><circle cx="9" cy="24" r="4" fill="' + D + '" stroke="' + T + '" stroke-width="2"/><circle cx="20" cy="24" r="4" fill="' + D + '" stroke="' + T + '" stroke-width="2"/><circle cx="31" cy="24" r="4" fill="' + D + '" stroke="' + T + '" stroke-width="2"/>', '0 0 42 30'), x: -32, y: 0, r: -4 },
+    { k: 'dino', html: sv(36, 25, '<path d="M1 19 C6 18 9 15 14 14 C20 12 26 13 29 15 L32 6 C33 3 37 2 40 3 C43 4 44 7 41 8 L37 8 L35 17 C37 20 36 23 33 24 L33 31 L29 31 L28 25 L19 25 L18 31 L14 31 L14 24 C10 23 6 21 1 19 Z" fill="' + T + '"/>', '0 0 46 32'), x: 2, y: 0, r: 3 },
+    { k: 'card', html: sv(22, 30, '<rect x="1" y="1" width="30" height="42" rx="4" fill="' + T + '"/><rect x="4" y="4" width="24" height="36" rx="3" fill="#fbf8f2"/><path d="M16 12 L18.6 18 L25 18.6 L20 22.8 L21.6 29 L16 25.6 L10.4 29 L12 22.8 L7 18.6 L13.4 18 Z" fill="' + T + '"/>', '0 0 32 44'), x: 20, y: -6, r: 12 },
+    { k: 'order', html: sv(24, 24, '<circle cx="17" cy="17" r="15" fill="' + T + '" stroke="' + D + '" stroke-width="2"/><path d="M11 20 L17 13 L23 20" stroke="' + D + '" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>', '0 0 34 34'), x: -50, y: -2, r: -10 },
+    { k: 'meeple', html: sv(40, 40, '<path d="M18 2a6 6 0 0 1 6 6a6 6 0 0 1-1.5 4L33 15a3 3 0 0 1-1 5.5L24 20l4 13a2 2 0 0 1-2 2h-5l-3-8-3 8h-5a2 2 0 0 1-2-2l4-13-8 .5a3 3 0 0 1-1-5.5L13.5 12A6 6 0 0 1 12 8a6 6 0 0 1 6-6z" fill="' + T + '"/>', '0 0 36 36'), x: -18, y: -22, r: 0 }
+  ];
+  var n = defs.length;
+  defs.forEach(function (d, i) {
+    var el = document.createElement('span'); el.className = 'yp yp-' + d.k; el.innerHTML = d.html; pile.appendChild(el); d.el = el;
+    d.sx = 140 + i * 60 + Math.random() * 50; d.sy = -50 + Math.random() * 70; d.sr = Math.random() * 140 - 70;
+    var a = i === n - 1 ? 0.62 : i * 0.14; d.a = a; d.b = i === n - 1 ? 1 : a + 0.38;
+    d.w = { x: 0, y: 0, r: 0 };
+  });
+  var meeple = defs[n - 1];
+  function ease(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  function render(p) {
+    defs.forEach(function (d) {
+      var t = Math.max(0, Math.min(1, (p - d.a) / (d.b - d.a))), e = ease(t);
+      var x = d.sx + (d.x - d.sx) * e + d.w.x, y = d.sy + (d.y - d.sy) * e + d.w.y, r = d.sr + (d.r - d.sr) * e + d.w.r;
+      d.el.style.transform = 'translate(' + x + 'px,' + y + 'px) rotate(' + r + 'deg)';
+      d.el.style.opacity = Math.min(1, t * 3);
+    });
+  }
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { render(1); return; }
+  var raf = 0, cur = 0;
+  function measure() {
+    raf = 0; var vh = window.innerHeight, top = pile.getBoundingClientRect().top;
+    cur = Math.max(0, Math.min(1, (vh * 0.95 - top) / (vh * 0.5))); render(cur);
+  }
+  window.addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(measure); }, { passive: true });
+  window.addEventListener('resize', measure); measure();
+  meeple.el.addEventListener('mouseenter', function () { if (cur < 1) return; meeple.w = { x: Math.random() * 12 - 6, y: -6 - Math.random() * 6, r: Math.random() * 24 - 12 }; render(cur); });
+  meeple.el.addEventListener('mouseleave', function () { meeple.w = { x: 0, y: 0, r: 0 }; render(cur); });
 })();
