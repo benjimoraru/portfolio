@@ -605,7 +605,13 @@ nav a.on { color: var(--accent); }
 .seat-eyebrow { color: #5fd3c0 !important; }
 
 .hero-grid > .ht-hint { grid-column: 2; margin: -64px 0 0; position: relative; text-align: center; font-size: 13px; letter-spacing: .04em; color: var(--muted); transition: opacity .4s ease; }
-.ht-hint::before { content: '↻ '; color: #5fd3c0; }
+.ht-hint { cursor: pointer; width: fit-content; justify-self: center; padding: 4px 8px; }
+.ht-hint::before { content: '↻ '; color: rgba(95,211,192,.55); transition: color .25s ease, text-shadow .25s ease; }
+.ht-hint:hover, .ht-hint:focus-visible { color: #fff; opacity: 1; outline: none; }
+.ht-hint:hover::before, .ht-hint:focus-visible::before { color: #5fd3c0; text-shadow: 0 0 10px rgba(95,211,192,.7); }
 .ht-hint.used { opacity: .6; }
+.ht-hint.used:hover, .ht-hint.used:focus-visible { opacity: 1; }
+.hero-grid > .ht-hint { transition: opacity .4s ease, color .25s ease; }
 @media (max-width: 1000px) { .hero-grid > .ht-hint { grid-column: 1; margin-top: -8px; } }
+
 html { visibility: visible !important; }

@@ -216,6 +216,9 @@
   }
   function next() { hint.classList.add('used'); go(mode === 'd' ? 'm' : mode === 'm' ? 's' : 'd'); }
   host.addEventListener('click', next);
+  hint.setAttribute('role', 'button'); hint.tabIndex = 0;
+  hint.addEventListener('click', next);
+  hint.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); next(); } });
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   go('m');
   if (reduce) return;
