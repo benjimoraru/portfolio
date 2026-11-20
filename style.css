@@ -585,4 +585,11 @@ nav a.on { color: var(--accent); }
 .hero-table { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 
 .ht-piece svg { transform: translate(calc(var(--gx, 0) * var(--k, 1) * 1px), calc(var(--gy, 0) * var(--k, 1) * 1px)); transition: transform .3s ease-out; }
+
+.logo { white-space: nowrap; }
+@media (max-width: 480px) {
+  .logo { font-size: 17px; }
+  nav ul { gap: 14px; font-size: 13.5px; }
+}
+@media (max-width: 360px) { nav ul { gap: 10px; font-size: 13px; } .logo { font-size: 16px; } }
 html { visibility: visible !important; }
