@@ -195,6 +195,7 @@
   if (reduce) { go('d'); return; }
   go('m');
   setTimeout(function () { if (mode === 'm') go('d'); }, 900);
-  host.addEventListener('mouseenter', function () { if (mode === 'd') set(function (it) { return it.d; }, true); });
-  host.addEventListener('mouseleave', function () { if (mode === 'd') set(function (it) { return it.d; }); });
+  function cur(it) { return mode === 'd' ? it.d : mode === 's' ? it.s : it.m; }
+  host.addEventListener('mouseenter', function () { set(cur, true); });
+  host.addEventListener('mouseleave', function () { set(cur); });
 })();
