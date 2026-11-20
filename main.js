@@ -157,7 +157,8 @@
     cube: function (c) { return sv(20, 20, '<rect x="1" y="1" width="18" height="18" rx="3" fill="' + c + '"/><rect x="1" y="1" width="18" height="6" rx="3" fill="#fff" opacity=".25"/>'); },
     coin: function (c, o, f) {
       var v = f || 5, n = v === 5 ? 28 : v === 10 ? 33 : 38, h = n / 2, bronze = v === 5;
-      var fill = bronze ? '#c98a4b' : '#e9b949', ring = bronze ? '#8a5a2b' : '#a87e1c', txt = bronze ? '#5a3714' : '#6b4c0b';
+      var silver = v === 10;
+      var fill = bronze ? '#c98a4b' : silver ? '#cfd3da' : '#e9b949', ring = bronze ? '#8a5a2b' : silver ? '#8c929c' : '#a87e1c', txt = bronze ? '#5a3714' : silver ? '#4a4f58' : '#6b4c0b';
       return sv(n, n, '<circle cx="' + h + '" cy="' + h + '" r="' + (h - 1) + '" fill="' + fill + '"/><circle cx="' + h + '" cy="' + h + '" r="' + (h - 4.5) + '" fill="none" stroke="' + ring + '" stroke-width="1.5"/>'
         + (v === 15 ? '<circle cx="' + h + '" cy="' + h + '" r="' + (h - 7.5) + '" fill="none" stroke="' + ring + '" stroke-width=".8" opacity=".7"/>' : '')
         + '<text x="' + h + '" y="' + (h + n * .16) + '" font-size="' + Math.round(n * .42) + '" font-weight="700" text-anchor="middle" fill="' + txt + '" font-family="sans-serif">' + v + '</text>'); },
