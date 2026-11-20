@@ -221,12 +221,13 @@
     /* Shake the phone to go to the next step */
     var last = null, lastShake = 0;
     var onMotion = function (e) {
-      var a = e.accelerationIncludingGravity; if (!a || a.x == null) return;
-      if (last) {
-        var d = Math.abs(a.x - last.x) + Math.abs(a.y - last.y) + Math.abs(a.z - last.z), now = Date.now();
-        if (d > 28 && now - lastShake > 1200) { lastShake = now; next(); }
+      var now = Date.now(), hit = false, a = e.acceleration, g = e.accelerationIncludingGravity;
+      if (a && a.x != null) { hit = Math.abs(a.x) + Math.abs(a.y) + Math.abs(a.z) > 13; }
+      else if (g && g.x != null) {
+        if (last) hit = Math.abs(g.x - last.x) + Math.abs(g.y - last.y) + Math.abs(g.z - last.z) > 14;
+        last = { x: g.x, y: g.y, z: g.z };
       }
-      last = { x: a.x, y: a.y, z: a.z };
+      if (hit && now - lastShake > 1000) { lastShake = now; next(); }
     };
     var listenMotion = function () { window.addEventListener('devicemotion', onMotion); };
     listenMotion();
