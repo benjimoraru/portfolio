@@ -284,12 +284,12 @@
       var t = Math.max(0, Math.min(1, (p - d.a) / (d.b - d.a))), x, y, r, sc, op;
       if (d === meeple) {
         var e = back(t);
-        x = -20 + d.w.x; y = 10 + (-26 - 10) * e + d.w.y; r = d.w.r; sc = 0.3 + 0.7 * e; op = Math.min(1, t * 2.5);
+        x = -20 + d.w.x; y = 14 + (-3 - 14) * e + d.w.y; r = d.w.r; sc = 0.3 + 0.7 * e; op = Math.min(1, t * 2.5);
       } else {
         var k = Math.pow(t, 2.6);
         var ang = d.ang + k * 2.2, rad = d.rad * (1 - k);
         x = Math.cos(ang) * rad - d.w0 / 2; y = Math.sin(ang) * rad * 0.7 - d.h0 / 2 + 4;
-        r = d.spin * (1 - k) + k * 240; sc = 1 - 0.85 * k; op = t <= 0 ? 0 : Math.min(1, t * 6) * (1 - Math.max(0, (k - 0.75) / 0.25));
+        r = d.spin * (1 - k) + k * 240; sc = 1; op = t <= 0 ? 0 : Math.min(1, t * 6) * (1 - Math.max(0, (k - 0.75) / 0.25));
       }
       d.el.style.transform = 'translate(' + x + 'px,' + y + 'px) rotate(' + r + 'deg) scale(' + sc + ')';
       d.el.style.opacity = op;
@@ -298,8 +298,9 @@
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { render(1); return; }
   var raf = 0, cur = 0;
   function measure() {
-    raf = 0; var vh = window.innerHeight, top = pile.getBoundingClientRect().top;
-    cur = Math.max(0, Math.min(1, (vh * 0.95 - top) / (vh * 0.5))); render(cur);
+    raf = 0; var vh = window.innerHeight, y = window.scrollY, top = pile.getBoundingClientRect().top + y;
+    var start = top - vh * 0.95, end = (document.scrollingElement || document.documentElement).scrollHeight - vh - 2;
+    cur = end <= start ? 1 : Math.max(0, Math.min(1, (y - start) / (end - start))); render(cur);
   }
   window.addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(measure); }, { passive: true });
   window.addEventListener('resize', measure); measure();
