@@ -200,6 +200,24 @@
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   go('m');
   if (reduce) return;
+  /* Phones: pieces drift a little as the phone tilts */
+  if (window.matchMedia('(hover: none)').matches && 'DeviceOrientationEvent' in window) {
+    items.forEach(function (it) { it.el.style.setProperty('--k', (0.5 + Math.random()).toFixed(2)); });
+    var raf = 0, gx = 0, gy = 0;
+    var clamp = function (v) { return Math.max(-30, Math.min(30, v || 0)); };
+    var onTilt = function (e) {
+      gx = clamp(e.gamma) / 30 * 7; gy = clamp((e.beta || 45) - 45) / 30 * 7;
+      if (!raf) raf = requestAnimationFrame(function () { raf = 0; host.style.setProperty('--gx', gx.toFixed(2)); host.style.setProperty('--gy', gy.toFixed(2)); });
+    };
+    var listen = function () { window.addEventListener('deviceorientation', onTilt); };
+    listen();
+    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+      host.addEventListener('click', function ask() {
+        host.removeEventListener('click', ask);
+        DeviceOrientationEvent.requestPermission().then(function (r) { if (r === 'granted') listen(); }).catch(function () {});
+      });
+    }
+  }
   function cur(it) { return mode === 'd' ? it.d : mode === 's' ? it.s : it.m; }
   host.addEventListener('mouseenter', function () { set(cur, true); });
   host.addEventListener('mouseleave', function () { set(cur); });
