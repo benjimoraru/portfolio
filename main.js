@@ -155,7 +155,12 @@
       return sv(44, 52, s + '<rect x="8" y="8" width="24" height="36" rx="2" fill="none" stroke="#ffd466" stroke-width=".8" opacity=".6"/><g transform="translate(8.5,15) scale(.95)">' + ic.pack() + '</g>'); },
     wdie: function (c, o, f) { return sv(30, 30, '<rect x="1" y="1" width="28" height="28" rx="6" fill="#fbfaf7"/><rect x="1" y="24" width="28" height="5" rx="3" fill="#e2ddd2"/><g transform="translate(3.5,3) scale(.95)">' + ic[f]() + '</g>'); },
     cube: function (c) { return sv(20, 20, '<rect x="1" y="1" width="18" height="18" rx="3" fill="' + c + '"/><rect x="1" y="1" width="18" height="6" rx="3" fill="#fff" opacity=".25"/>'); },
-    coin: function () { return sv(28, 28, '<circle cx="14" cy="14" r="13" fill="#e9b949"/><circle cx="14" cy="14" r="9.5" fill="none" stroke="#a87e1c" stroke-width="1.5"/><text x="14" y="18.5" font-size="12" font-weight="700" text-anchor="middle" fill="#6b4c0b" font-family="sans-serif">5</text>'); },
+    coin: function (c, o, f) {
+      var v = f || 5, n = v === 5 ? 28 : v === 10 ? 33 : 38, h = n / 2, bronze = v === 5;
+      var fill = bronze ? '#c98a4b' : '#e9b949', ring = bronze ? '#8a5a2b' : '#a87e1c', txt = bronze ? '#5a3714' : '#6b4c0b';
+      return sv(n, n, '<circle cx="' + h + '" cy="' + h + '" r="' + (h - 1) + '" fill="' + fill + '"/><circle cx="' + h + '" cy="' + h + '" r="' + (h - 4.5) + '" fill="none" stroke="' + ring + '" stroke-width="1.5"/>'
+        + (v === 15 ? '<circle cx="' + h + '" cy="' + h + '" r="' + (h - 7.5) + '" fill="none" stroke="' + ring + '" stroke-width=".8" opacity=".7"/>' : '')
+        + '<text x="' + h + '" y="' + (h + n * .16) + '" font-size="' + Math.round(n * .42) + '" font-weight="700" text-anchor="middle" fill="' + txt + '" font-family="sans-serif">' + v + '</text>'); },
     d12: function () { var R = 16, r = 8.5, c = 18, out = [], inn = [], i, s;
       for (i = 0; i < 10; i++) out.push([c + R * Math.cos(-Math.PI / 2 + i * Math.PI / 5), c + R * Math.sin(-Math.PI / 2 + i * Math.PI / 5)]);
       for (i = 0; i < 5; i++) inn.push([c + r * Math.cos(-Math.PI / 2 + i * 2 * Math.PI / 5), c + r * Math.sin(-Math.PI / 2 + i * 2 * Math.PI / 5)]);
@@ -166,8 +171,9 @@
   };
   var items = [];
   P.forEach(function (c, o) { ['order', 'dino', 'loco', 'meeple', 'card'].forEach(function (k) { items.push({ k: k, c: c, o: o }); }); });
-  ['deck', 'deck', 'wdie', 'wdie', 'wdie', 'cube', 'cube', 'cube', 'cube', 'coin', 'coin', 'd12', 'trophy'].forEach(function (k, i) {
-    items.push({ k: k, c: ['#7fd8a8', '#6fa8ff', '#f4f1f7', '#5a4f6b'][i % 4], o: -1, f: ['mega', 'hammer', 'pack'][i % 3] });
+  var coinV = [5, 10, 15], ci = 0;
+  ['deck', 'deck', 'wdie', 'wdie', 'wdie', 'cube', 'cube', 'cube', 'cube', 'coin', 'coin', 'coin', 'd12', 'trophy'].forEach(function (k, i) {
+    items.push({ k: k, c: ['#7fd8a8', '#6fa8ff', '#f4f1f7', '#5a4f6b'][i % 4], o: -1, f: k === 'coin' ? coinV[ci++] : ['mega', 'hammer', 'pack'][i % 3] });
   });
   var cx = CW / 2, cnt = [0, 0, 0], nc = { deck: 0, wdie: 0, cube: 0, coin: 0 };
   items.forEach(function (it) {
@@ -180,14 +186,14 @@
     else if (it.k === 'deck') { k = nc.deck++; it.d = { x: cx - 130 + k * 52, y: 78, r: k ? 6 : -4 }; }
     else if (it.k === 'wdie') { k = nc.wdie++; it.d = { x: cx + 6 + k * 38, y: 88, r: [-8, 4, 10][k] }; }
     else if (it.k === 'cube') { k = nc.cube++; it.d = { x: cx - 120 + k * 30, y: 158, r: 0 }; }
-    else if (it.k === 'coin') { k = nc.coin++; it.d = { x: cx + 20 + k * 36, y: 150, r: 0 }; }
+    else if (it.k === 'coin') { k = nc.coin++; it.d = { x: cx + [12, 44, 82][k], y: [158, 155, 152][k], r: 0 }; }
     else if (it.k === 'd12') { it.d = { x: cx - 110, y: 205, r: 8 }; }
     else { it.d = { x: cx - 60, y: 203, r: 0 }; }
   });
   var kOrder = ['meeple', 'dino', 'loco', 'order', 'card', 'deck', 'wdie', 'cube', 'coin', 'd12', 'trophy'];
   items.slice().sort(function (a, b) { return kOrder.indexOf(a.k) - kOrder.indexOf(b.k) || a.o - b.o; }).forEach(function (it, j) {
-    var cols = 7, col = j % cols, row = Math.floor(j / cols);
-    it.s = { x: (CW - cols * 62) / 2 + 8 + col * 62, y: 40 + row * 82, r: 0 };
+    var cols = 8, col = j % cols, row = Math.floor(j / cols);
+    it.s = { x: (CW - cols * 56) / 2 + 6 + col * 56, y: 40 + row * 82, r: 0 };
   });
   function spill() { items.forEach(function (it) { it.m = { x: 10 + Math.random() * (CW - 60), y: 10 + Math.random() * (CH - 60), r: Math.random() * 160 - 80 }; }); }
   function set(pick, j) {
