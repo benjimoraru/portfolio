@@ -644,4 +644,9 @@ nav a.on { color: var(--accent); }
 .final-score { font-size: 14px; color: var(--ink) !important; margin-top: 14px !important; }
 .final-score i { font-style: normal; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-right: 6px; }
 @media (max-width: 720px) { .score-coin { width: 80px; height: 80px; right: 14px; top: 14px; } .score-coin .tr { width: 20px; height: 17px; } .score-coin b { font-size: 16px; } .score-coin span { font-size: 8px; } }
+
+/* Calmer cards: no lift or tilt on hover, only the trophy reacts when you touch it */
+.card:hover { transform: none; }
+.card:hover .mock { transform: none; box-shadow: 0 20px 50px rgba(0,0,0,.35); }
+.card:hover .score-coin { transform: rotate(-8deg); }
 html { visibility: visible !important; }

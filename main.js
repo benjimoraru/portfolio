@@ -343,3 +343,15 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
   meeple.el.addEventListener('mouseenter', function () { if (cur < 1) return; meeple.w = { x: Math.random() * 12 - 6, y: -6 - Math.random() * 6, r: Math.random() * 24 - 12 }; render(cur); });
   meeple.el.addEventListener('mouseleave', function () { meeple.w = { x: 0, y: 0, r: 0 }; render(cur); });
 })();
+
+/* Trophy tokens on cards: small springy wiggle when hovered, like the table pieces */
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.querySelectorAll('.score-coin').forEach(function (c) {
+    c.addEventListener('mouseenter', function () {
+      var x = Math.random() * 12 - 6, y = -4 - Math.random() * 6, r = -8 + (Math.random() * 30 - 15);
+      c.style.transform = 'translate(' + x + 'px,' + y + 'px) rotate(' + r + 'deg)';
+    });
+    c.addEventListener('mouseleave', function () { c.style.transform = ''; });
+  });
+})();
