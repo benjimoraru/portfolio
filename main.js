@@ -257,10 +257,15 @@
   var pile = document.querySelector('.seats .pile'); if (!pile) return;
   var T = '#5fd3c0', D = '#110c18';
   function sv(w, h, b, vb) { return '<svg width="' + w + '" height="' + h + '" viewBox="' + (vb || '0 0 ' + w + ' ' + h) + '">' + b + '</svg>'; }
+  var tpack = '<path d="M10 4.8 C10 2.2 14 2.2 14 4.8" fill="none" stroke="#1e8a7b" stroke-width="1.5" stroke-linecap="round"/>'
+    + '<path d="M6.2 6 C6.2 5 7 4.5 8 4.5 H16 C17 4.5 17.8 5 17.8 6 L19.4 19.6 C19.5 21 18.6 22 17.2 22 H6.8 C5.4 22 4.5 21 4.6 19.6 Z" fill="#2fb3a0"/>'
+    + '<path d="M5.8 7 C5.8 5.4 6.9 4.6 8 4.6 H16 C17.1 4.6 18.2 5.4 18.2 7 V10.8 C18.2 11.8 17.5 12.3 16.5 12.1 C13.5 11.5 10.5 11.5 7.5 12.1 C6.5 12.3 5.8 11.8 5.8 10.8 Z" fill="#8ee6d8"/>'
+    + '<rect x="11.2" y="4.6" width="1.6" height="11.2" rx=".8" fill="#1e8a7b"/><path d="M12.4 15.6 L12.9 18" stroke="#1e8a7b" stroke-width="1.3" stroke-linecap="round"/>'
+    + '<rect x="10.3" y="10.2" width="3.4" height="1.3" rx=".5" fill="#3a3245"/>';
   var defs = [
     { k: 'loco', html: sv(34, 24, '<rect x="2" y="9" width="24" height="12" rx="2" fill="' + T + '"/><rect x="24" y="3" width="13" height="18" rx="2" fill="' + T + '"/><rect x="27" y="6" width="7" height="5" rx="1" fill="' + D + '"/><rect x="7" y="2" width="5" height="8" fill="' + T + '"/><circle cx="9" cy="24" r="4" fill="' + D + '" stroke="' + T + '" stroke-width="2"/><circle cx="20" cy="24" r="4" fill="' + D + '" stroke="' + T + '" stroke-width="2"/><circle cx="31" cy="24" r="4" fill="' + D + '" stroke="' + T + '" stroke-width="2"/>', '0 0 42 30'), x: -32, y: 0, r: -4 },
     { k: 'dino', html: sv(36, 25, '<path d="M1 19 C6 18 9 15 14 14 C20 12 26 13 29 15 L32 6 C33 3 37 2 40 3 C43 4 44 7 41 8 L37 8 L35 17 C37 20 36 23 33 24 L33 31 L29 31 L28 25 L19 25 L18 31 L14 31 L14 24 C10 23 6 21 1 19 Z" fill="' + T + '"/>', '0 0 46 32'), x: 2, y: 0, r: 3 },
-    { k: 'card', html: sv(22, 30, '<rect x="1" y="1" width="30" height="42" rx="4" fill="' + T + '"/><rect x="4" y="4" width="24" height="36" rx="3" fill="#fbf8f2"/><path d="M16 12 L18.6 18 L25 18.6 L20 22.8 L21.6 29 L16 25.6 L10.4 29 L12 22.8 L7 18.6 L13.4 18 Z" fill="' + T + '"/>', '0 0 32 44'), x: 20, y: -6, r: 12 },
+    { k: 'card', html: sv(22, 30, '<rect x="1" y="1" width="30" height="42" rx="4" fill="' + T + '"/><rect x="4" y="4" width="24" height="36" rx="3" fill="#fbf8f2"/><g transform="translate(4,9)">' + tpack + '</g>', '0 0 32 44'), x: 20, y: -6, r: 12 },
     { k: 'order', html: sv(24, 24, '<circle cx="17" cy="17" r="15" fill="' + T + '" stroke="' + D + '" stroke-width="2"/><path d="M11 20 L17 13 L23 20" stroke="' + D + '" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>', '0 0 34 34'), x: -50, y: -2, r: -10 },
     { k: 'meeple', html: sv(40, 40, '<path d="M18 2a6 6 0 0 1 6 6a6 6 0 0 1-1.5 4L33 15a3 3 0 0 1-1 5.5L24 20l4 13a2 2 0 0 1-2 2h-5l-3-8-3 8h-5a2 2 0 0 1-2-2l4-13-8 .5a3 3 0 0 1-1-5.5L13.5 12A6 6 0 0 1 12 8a6 6 0 0 1 6-6z" fill="' + T + '"/>', '0 0 36 36'), x: -18, y: -22, r: 0 }
   ];
