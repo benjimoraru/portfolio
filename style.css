@@ -529,8 +529,8 @@ nav a.on { color: var(--accent); }
 
 /* Primary button: moving gradient */
 .button.primary {
-  background: linear-gradient(90deg, #ffcc55 0%, #ffd466 30%, #ff9f8a 60%, #a98bff 100%);
-  background-size: 220% 100%; background-position: 0% 50%;
+  background: linear-gradient(90deg, #ffd466 0%, #ff9f8a 25%, #a98bff 50%, #ff9f8a 75%, #ffd466 100%);
+  background-size: 200% 100%; background-position: 0% 50%;
   border-color: transparent; color: #110c18;
   transition: background-position .7s cubic-bezier(.2,.7,.2,1), transform .2s ease, box-shadow .4s ease;
 }
