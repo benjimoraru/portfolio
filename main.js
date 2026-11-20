@@ -213,7 +213,7 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
   var hint = document.createElement('p'); hint.className = 'ht-hint'; host.parentNode.insertBefore(hint, host.nextSibling);
   function setHint() { hint.textContent = (touch ? 'Tap or shake to ' : 'Click to ') + (mode === 'm' ? 'sort' : mode === 's' ? 'deal' : 'shuffle'); }
   function go(m) {
-    mode = m; host.classList.toggle('dealt', m === 'd');
+    mode = m; host.classList.toggle('dealt', m === 'd'); host.classList.toggle('sorted', m === 's');
     if (m === 'm') { spill(); var t = d12el && d12el.querySelector('text'); if (t) { var nv; do { nv = Math.floor(Math.random() * 4); } while (String(nv) === t.textContent); t.textContent = nv; } }
     set(function (it) { return m === 'd' ? it.d : m === 's' ? it.s : it.m; });
     setHint();
