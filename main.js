@@ -385,8 +385,11 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
     });
   });
   var raf = 0, cur = 0;
+  var contact = document.getElementById('contact');
   function spy() {
-    raf = 0; if (Date.now() < lock) return;
+    raf = 0;
+    if (contact) bar.classList.toggle('away', contact.getBoundingClientRect().top < window.innerHeight * 0.75);
+    if (Date.now() < lock) return;
     var line = 140, i = 0;
     secs.forEach(function (s, j) { if (s && s.getBoundingClientRect().top <= line) i = j; });
     if (i !== cur) { cur = i; setOn(i); }

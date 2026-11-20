@@ -685,4 +685,21 @@ nav a.on { color: var(--accent); }
 
 .mini-score { white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
 .mini-score em { font-style: normal; font-weight: 500; color: #cfc8da; margin-left: 2px; }
+
+/* The jump bar steps aside at Let's talk, so the seat and the meeple stay visible */
+.jump { transition: transform .35s ease, opacity .25s ease; }
+.jump.away { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+
+/* At the very bottom, Let's talk fills the screen under the menu, so the seat and meeple are always in view */
+#contact.contact { min-height: calc(100vh - 190px); min-height: calc(100svh - 190px); }
+
+@media (max-width: 720px) {
+  #contact.contact { min-height: 0; padding: 44px 0 40px; }
+  .contact .lead { font-size: 16.5px !important; line-height: 1.55; }
+  .contact .links { margin-top: 24px; gap: 10px; }
+  .contact .links .button { padding: 12px 20px; font-size: 15px; }
+  .seats { margin-bottom: 10px; }
+  footer { padding: 20px 0; }
+  footer .wrap { gap: 4px; }
+}
 html { visibility: visible !important; }
