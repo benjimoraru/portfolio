@@ -581,4 +581,6 @@ nav a.on { color: var(--accent); }
   .hero-table { max-width: 480px; margin: 0 auto; }
 }
 @media (prefers-reduced-motion: reduce) { .ht-piece, .ht-seat, .ht-board { transition: none !important; } }
+
+.hero-table { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 html { visibility: visible !important; }

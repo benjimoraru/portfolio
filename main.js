@@ -172,17 +172,29 @@
     else if (it.k === 'd12') { it.d = { x: cx - 110, y: 205, r: 8 }; }
     else { it.d = { x: cx - 60, y: 203, r: 0 }; }
   });
+  var kOrder = ['meeple', 'dino', 'loco', 'order', 'card', 'deck', 'wdie', 'cube', 'coin', 'd12', 'trophy'];
+  items.slice().sort(function (a, b) { return kOrder.indexOf(a.k) - kOrder.indexOf(b.k) || a.o - b.o; }).forEach(function (it, j) {
+    var cols = 7, col = j % cols, row = Math.floor(j / cols);
+    it.s = { x: (CW - cols * 62) / 2 + 8 + col * 62, y: 40 + row * 82, r: 0 };
+  });
+  function spill() { items.forEach(function (it) { it.m = { x: 10 + Math.random() * (CW - 60), y: 10 + Math.random() * (CH - 60), r: Math.random() * 160 - 80 }; }); }
   function set(pick, j) {
     items.forEach(function (it) { var p = pick(it), dx = j ? Math.random() * 16 - 8 : 0, dy = j ? Math.random() * 16 - 8 : 0, dr = j ? Math.random() * 30 - 15 : 0;
       it.el.style.transform = 'translate(' + (p.x + dx) + 'px,' + (p.y + dy) + 'px) rotate(' + (p.r + dr) + 'deg)'; });
   }
   function fit() { var w = host.clientWidth, s = Math.min(1.1, w / CW); cv.style.transform = 'scale(' + s + ')'; host.style.height = (CH * s) + 'px'; }
   fit(); window.addEventListener('resize', fit);
+  var mode = 'm';
+  function go(m) {
+    mode = m; host.classList.toggle('dealt', m === 'd');
+    if (m === 'm') spill();
+    set(function (it) { return m === 'd' ? it.d : m === 's' ? it.s : it.m; });
+  }
+  host.addEventListener('click', function () { go(mode === 'd' ? 'm' : mode === 'm' ? 's' : 'd'); });
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function deal() { host.classList.add('dealt'); set(function (it) { return it.d; }); }
-  if (reduce) { deal(); return; }
-  set(function (it) { return it.m; });
-  setTimeout(deal, 900);
-  host.addEventListener('mouseenter', function () { if (host.classList.contains('dealt')) set(function (it) { return it.d; }, true); });
-  host.addEventListener('mouseleave', function () { if (host.classList.contains('dealt')) set(function (it) { return it.d; }); });
+  if (reduce) { go('d'); return; }
+  go('m');
+  setTimeout(function () { if (mode === 'm') go('d'); }, 900);
+  host.addEventListener('mouseenter', function () { if (mode === 'd') set(function (it) { return it.d; }, true); });
+  host.addEventListener('mouseleave', function () { if (mode === 'd') set(function (it) { return it.d; }); });
 })();
