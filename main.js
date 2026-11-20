@@ -323,12 +323,12 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
       d.el.style.opacity = op;
     });
   }
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { render(1); return; }
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { render(1); totop.classList.remove('gone'); return; }
   /* The pieces follow the scroll with a soft delay: the target comes from the scroll, the pieces ease towards it */
   var cur = 0, target = 0, loop = 0;
   function measure() {
     var vh = window.innerHeight, y = window.scrollY, top = pile.getBoundingClientRect().top + y;
-    var start = top - vh * 0.95, end = (document.scrollingElement || document.documentElement).scrollHeight - vh - 2;
+    var start = top - vh * 0.95, end = (document.scrollingElement || document.documentElement).scrollHeight - vh - 12;
     target = end <= start ? 1 : Math.max(0, Math.min(1, (y - start) / (end - start)));
     if (!loop) loop = requestAnimationFrame(tick);
   }
