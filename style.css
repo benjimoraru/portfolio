@@ -767,4 +767,12 @@ html.in-modal .case-hero { padding-top: 72px; }
 .rh-actions button.button.primary:hover, .links button.button.primary:hover { background-position: 100% 50%; }
 
 .rh-actions .button { display: inline-flex; align-items: center; gap: 8px; }
+
+/* Desktop: the "Click to sort" hint sits on the same line as the hero chips */
+@media (min-width: 1001px) {
+  .hero-grid { grid-template-rows: 1fr auto; align-items: end; }
+  .hero-grid > .hero-text { grid-column: 1; grid-row: 1 / span 2; align-self: end; }
+  .hero-grid > .hero-table { grid-column: 2; grid-row: 1; align-self: end; }
+  .hero-grid > .ht-hint { grid-column: 2; grid-row: 2; margin: 0 !important; align-self: center; position: relative; top: -5px; }
+}
 html { visibility: visible !important; }
