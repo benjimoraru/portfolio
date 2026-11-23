@@ -808,4 +808,15 @@ html.in-modal::-webkit-scrollbar { display: none; width: 0; height: 0; }
 .cmodal .cm-bar.none { display: none; }
 @media (hover: none) { .cmodal .cm-bar { display: none; } html.in-modal { scrollbar-width: auto; } html.in-modal::-webkit-scrollbar { display: initial; } }
 html.in-modal .case-hero { padding-top: 84px; }
+
+
+/* Compact Let's talk at the end of each case study */
+.contact-mini { padding: 72px 0 80px; text-align: center; }
+.contact-mini h2 { text-wrap: balance; margin: 6px 0 0; font-size: clamp(32px, 4.4vw, 48px); }
+.contact-mini .links { margin-top: 28px; }
+.contact-mini .links { justify-content: center; }
+.contact-mini .seat-you { position: relative; display: grid; place-items: end center; width: 52px; height: 40px; margin-left: 6px; }
+.contact-mini .seat-you::after { content: ''; position: absolute; left: 0; right: 0; bottom: -5px; height: 14px; border: 1.5px dashed rgba(95,211,192,.6); border-radius: 50%; }
+.contact-mini .seat-you .seat-m { position: relative; z-index: 1; width: 32px; height: 32px; opacity: 1; filter: drop-shadow(0 3px 8px rgba(95,211,192,.35)); }
+@media (max-width: 720px) { .contact-mini { padding: 52px 0 60px; } }
 html { visibility: visible !important; }
