@@ -708,7 +708,13 @@ nav a.on { color: var(--accent); }
 @media print {
   .wrap, .wrap.narrow { max-width: none !important; padding-left: 0 !important; padding-right: 0 !important; }
   .job { break-inside: auto; }
-  .job h3, .job .role, .job .meta { break-after: avoid; }
+  .job h3, .job .where { break-after: avoid; }
+  .job { grid-template-columns: 92px 1fr !important; gap: 14px !important; padding-bottom: 12px !important; }
+  .job ul { margin-top: 4px !important; }
+  .case-hero .lead { font-size: 15px !important; max-width: none !important; }
+  section { padding: 8px 0 !important; }
+  .rh { margin-bottom: 8px !important; }
+  .rgrid { gap: 24px !important; }
   .job li { break-inside: avoid; }
   h2, .eyebrow { break-after: avoid; }
   .rgrid > * { break-inside: avoid; }
