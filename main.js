@@ -450,7 +450,7 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
     if (wrap) return;
     wrap = document.createElement('div'); wrap.className = 'cmodal'; wrap.setAttribute('role', 'dialog'); wrap.setAttribute('aria-modal', 'true');
     var ARW = function (d) { return '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + d + '"/></svg>'; };
-    wrap.innerHTML = '<div class="cm-sheet"><div class="cm-nav"><button class="cm-btn cm-prev" aria-label="Previous case study">' + ARW('M19 12H5M11 6l-6 6 6 6') + '</button><button class="cm-btn cm-next" aria-label="Next case study">' + ARW('M5 12h14M13 6l6 6-6 6') + '</button></div><button class="cm-btn cm-close" aria-label="Close case study">' + ARW('M6 6l12 12M18 6 6 18') + '</button><iframe title="Case study" src="' + href + '"></iframe></div>';
+    wrap.innerHTML = '<div class="cm-sheet"><div class="cm-nav"><button class="cm-btn cm-prev" aria-label="Previous case study">' + ARW('M19 12H5M11 6l-6 6 6 6') + '</button><button class="cm-btn cm-next" aria-label="Next case study">' + ARW('M5 12h14M13 6l6 6-6 6') + '</button></div><button class="cm-btn cm-close" aria-label="Close case study">' + ARW('M6 6l12 12M18 6 6 18') + '</button><div class="cm-bar" aria-hidden="true"><div class="cm-thumb"></div></div><iframe title="Case study" src="' + href + '"></iframe></div>';
     document.body.appendChild(wrap); document.documentElement.classList.add('cm-lock');
     requestAnimationFrame(function () { wrap.classList.add('open'); });
     wrap.querySelector('.cm-close').addEventListener('click', function () { history.state && history.state.cm ? history.back() : close(); });
@@ -464,7 +464,34 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
       frame.classList.add('swap');
       setTimeout(function () { frame.src = nxt; }, 180);
     }
+    var bar = wrap.querySelector('.cm-bar'), thumb = wrap.querySelector('.cm-thumb');
+    function sync() {
+      try {
+        var w = frame.contentWindow, d = w.document.documentElement;
+        var sh = d.scrollHeight, vh = w.innerHeight, track = bar.clientHeight;
+        if (sh <= vh + 2) { bar.classList.add('none'); return; } bar.classList.remove('none');
+        var th = Math.max(40, track * vh / sh);
+        thumb.style.height = th + 'px';
+        thumb.style.transform = 'translateY(' + ((track - th) * w.scrollY / (sh - vh)) + 'px)';
+      } catch (e) { bar.classList.add('none'); }
+    }
+    thumb.addEventListener('pointerdown', function (e) {
+      e.preventDefault(); thumb.setPointerCapture(e.pointerId); thumb.classList.add('drag');
+      var w = frame.contentWindow, d = w.document.documentElement, y0 = e.clientY, s0 = w.scrollY;
+      var ratio = (d.scrollHeight - w.innerHeight) / (bar.clientHeight - thumb.offsetHeight);
+      function mv(ev) { w.scrollTo({ top: s0 + (ev.clientY - y0) * ratio, behavior: 'instant' }); }
+      function up() { thumb.classList.remove('drag'); thumb.removeEventListener('pointermove', mv); thumb.removeEventListener('pointerup', up); }
+      thumb.addEventListener('pointermove', mv); thumb.addEventListener('pointerup', up);
+    });
+    bar.addEventListener('pointerdown', function (e) {
+      if (e.target !== bar) return;
+      var w = frame.contentWindow, r = bar.getBoundingClientRect();
+      w.scrollTo({ top: (e.clientY - r.top) / r.height * (w.document.documentElement.scrollHeight - w.innerHeight), behavior: 'smooth' });
+    });
+    window.addEventListener('resize', sync);
     frame.addEventListener('load', function () {
+      try { frame.contentWindow.addEventListener('scroll', sync, { passive: true }); frame.contentWindow.addEventListener('resize', sync); } catch (e) {}
+      sync(); setTimeout(sync, 600); setTimeout(sync, 2000);
       frame.classList.remove('swap');
       try { var f = frame.contentWindow.location.pathname.split('/').pop(); if (ORDER.indexOf(f) > -1) { history.replaceState({ cm: f }, '', '#case-' + f.replace('.html', '')); } } catch (e) {}
     });
