@@ -445,15 +445,38 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
   var links = document.querySelectorAll('#work a.card, #earlier a.card, .games a.more');
   if (!links.length) return;
   var wrap = null;
+  var ORDER = ['eshop.html', 'sastrify-spend.html', 'foodcircle.html', 'design-review.html', 'my-memorial.html', 'min-gava.html'];
   function open(href, push) {
     if (wrap) return;
     wrap = document.createElement('div'); wrap.className = 'cmodal'; wrap.setAttribute('role', 'dialog'); wrap.setAttribute('aria-modal', 'true');
-    wrap.innerHTML = '<div class="cm-sheet"><button class="cm-close" aria-label="Close case study">×</button><iframe title="Case study" src="' + href + '"></iframe></div>';
+    var ARW = function (d) { return '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + d + '"/></svg>'; };
+    wrap.innerHTML = '<div class="cm-sheet"><div class="cm-nav"><button class="cm-btn cm-prev" aria-label="Previous case study">' + ARW('M19 12H5M11 6l-6 6 6 6') + '</button><button class="cm-btn cm-next" aria-label="Next case study">' + ARW('M5 12h14M13 6l6 6-6 6') + '</button></div><button class="cm-btn cm-close" aria-label="Close case study">' + ARW('M6 6l12 12M18 6 6 18') + '</button><iframe title="Case study" src="' + href + '"></iframe></div>';
     document.body.appendChild(wrap); document.documentElement.classList.add('cm-lock');
     requestAnimationFrame(function () { wrap.classList.add('open'); });
     wrap.querySelector('.cm-close').addEventListener('click', function () { history.state && history.state.cm ? history.back() : close(); });
     wrap.addEventListener('click', function (e) { if (e.target === wrap) { history.state && history.state.cm ? history.back() : close(); } });
     wrap.querySelector('.cm-close').focus();
+    var frame = wrap.querySelector('iframe');
+    function go(step) {
+      var cur = (frame.contentWindow && frame.contentWindow.location.pathname.split('/').pop()) || href;
+      var i = ORDER.indexOf(cur); if (i < 0) i = ORDER.indexOf(href);
+      var nxt = ORDER[(i + step + ORDER.length) % ORDER.length];
+      frame.classList.add('swap');
+      setTimeout(function () { frame.src = nxt; }, 180);
+    }
+    frame.addEventListener('load', function () {
+      frame.classList.remove('swap');
+      try { var f = frame.contentWindow.location.pathname.split('/').pop(); if (ORDER.indexOf(f) > -1) { history.replaceState({ cm: f }, '', '#case-' + f.replace('.html', '')); } } catch (e) {}
+    });
+    wrap.querySelector('.cm-prev').addEventListener('click', function () { go(-1); });
+    wrap.querySelector('.cm-next').addEventListener('click', function () { go(1); });
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) wrap.querySelectorAll('.cm-btn').forEach(function (b) {
+      b.addEventListener('mouseenter', function () {
+        var x = Math.random() * 6 - 3, y = -3 - Math.random() * 3, r = Math.random() * 16 - 8;
+        b.style.transform = 'translate(' + x + 'px,' + y + 'px) rotate(' + r + 'deg)';
+      });
+      b.addEventListener('mouseleave', function () { b.style.transform = ''; });
+    });
     if (push) history.pushState({ cm: href }, '', '#case-' + href.replace('.html', ''));
   }
   function close() {
@@ -467,7 +490,7 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
       e.preventDefault(); open(a.getAttribute('href'), true);
     });
   });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && wrap) { history.state && history.state.cm ? history.back() : close(); } });
+  document.addEventListener('keydown', function (e) { if (wrap && (e.key === 'ArrowLeft' || e.key === 'ArrowRight') && !e.target.closest('input,textarea')) { wrap.querySelector(e.key === 'ArrowLeft' ? '.cm-prev' : '.cm-next').click(); } if (e.key === 'Escape' && wrap) { history.state && history.state.cm ? history.back() : close(); } });
   window.addEventListener('popstate', function (e) { if (wrap && !(e.state && e.state.cm)) close(); else if (!wrap && e.state && e.state.cm) open(e.state.cm, false); });
   var m = location.hash.match(/^#case-([\w-]+)$/);
   if (m) { history.replaceState({ cm: m[1] + '.html' }, '', location.hash); open(m[1] + '.html', false); }
