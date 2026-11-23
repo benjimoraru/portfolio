@@ -719,4 +719,12 @@ nav a.on { color: var(--accent); }
   h2, .eyebrow { break-after: avoid; }
   .rgrid > * { break-inside: avoid; }
 }
+
+
+/* Long screens: a soft fade shows the cut is intentional (hover scrolls the page) */
+.shot.scroll { position: relative; }
+.shot.scroll::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 72px; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,.96)); pointer-events: none; transition: opacity .5s ease; }
+.shot.scroll:hover::after { opacity: 0; }
+/* Lighter phone frames */
+.shot.phone { border-width: 3px !important; box-shadow: 0 0 0 1px rgba(23,18,29,.06), 0 18px 40px rgba(23,18,29,.12); }
 html { visibility: visible !important; }
