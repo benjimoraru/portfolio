@@ -479,7 +479,7 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
       e.preventDefault(); thumb.setPointerCapture(e.pointerId); thumb.classList.add('drag');
       var w = frame.contentWindow, d = w.document.documentElement, y0 = e.clientY, s0 = w.scrollY;
       var ratio = (d.scrollHeight - w.innerHeight) / (bar.clientHeight - thumb.offsetHeight);
-      function mv(ev) { w.scrollTo({ top: s0 + (ev.clientY - y0) * ratio, behavior: 'instant' }); }
+      function mv(ev) { var st = d.style.scrollBehavior; d.style.scrollBehavior = 'auto'; w.scrollTo(0, s0 + (ev.clientY - y0) * ratio); d.style.scrollBehavior = st; }
       function up() { thumb.classList.remove('drag'); thumb.removeEventListener('pointermove', mv); thumb.removeEventListener('pointerup', up); }
       thumb.addEventListener('pointermove', mv); thumb.addEventListener('pointerup', up);
     });
