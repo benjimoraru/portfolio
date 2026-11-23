@@ -702,4 +702,15 @@ nav a.on { color: var(--accent); }
   footer { padding: 20px 0; }
   footer .wrap { gap: 4px; }
 }
+
+/* CV PDF: real A4 margins, no orphaned headers, jobs may continue on the next page */
+@page { size: A4; margin: 14mm 15mm 14mm; }
+@media print {
+  .wrap, .wrap.narrow { max-width: none !important; padding-left: 0 !important; padding-right: 0 !important; }
+  .job { break-inside: auto; }
+  .job h3, .job .role, .job .meta { break-after: avoid; }
+  .job li { break-inside: avoid; }
+  h2, .eyebrow { break-after: avoid; }
+  .rgrid > * { break-inside: avoid; }
+}
 html { visibility: visible !important; }
