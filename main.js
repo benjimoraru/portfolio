@@ -397,18 +397,35 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
   window.addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(spy); }, { passive: true });
 })();
 
-/* Copy email button */
+/* Copy email button: same size as LinkedIn, label slides to "Copied" */
 (function () {
-  document.querySelectorAll('.copy-mail').forEach(function (b) {
-    var t = b.querySelector('.cm-txt'), orig = t.textContent;
+  var ICO_COPY = '<svg class="btn-ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>';
+  var ICO_OK = '<svg class="btn-ico cm-check" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  var btns = [].slice.call(document.querySelectorAll('.copy-mail'));
+  btns.forEach(function (b) {
+    var label = (b.querySelector('.cm-txt') || b).textContent.trim();
+    b.innerHTML = '<span class="cm-stack"><span class="cm-a">' + label + ICO_COPY + '</span><span class="cm-b" aria-hidden="true">Copied' + ICO_OK + '</span></span>';
+    var timer;
     b.addEventListener('click', function () {
       var m = b.dataset.mail;
-      b.style.minWidth = b.offsetWidth + 'px';
-      var done = function () { t.textContent = 'Copied!'; b.classList.add('done'); setTimeout(function () { t.textContent = orig; b.classList.remove('done'); b.style.minWidth = ''; b.blur(); }, 1600); };
+      var done = function () {
+        clearTimeout(timer); b.classList.add('done');
+        timer = setTimeout(function () { b.classList.remove('done'); b.blur(); }, 1700);
+      };
       if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(m).then(done, function () { location.href = 'mailto:' + m; });
       else { var ta = document.createElement('textarea'); ta.value = m; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); done(); } catch (e) { location.href = 'mailto:' + m; } ta.remove(); }
     });
   });
+  function size() {
+    btns.forEach(function (b) {
+      var twin = b.parentElement && b.parentElement.querySelector('a.button');
+      b.style.width = '';
+      if (twin && twin.offsetWidth) b.style.width = twin.offsetWidth + 'px';
+    });
+  }
+  size();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(size);
+  window.addEventListener('resize', size);
 })();
 
 /* Inside a modal: hide the site chrome, send home links to the top window */

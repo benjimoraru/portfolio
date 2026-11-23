@@ -775,4 +775,16 @@ html.in-modal .case-hero { padding-top: 72px; }
   .hero-grid > .hero-table { grid-column: 2; grid-row: 1; align-self: end; }
   .hero-grid > .ht-hint { grid-column: 2; grid-row: 2; margin: 0 !important; align-self: center; position: relative; top: -5px; }
 }
+
+
+/* Copy email: fixed size, sliding label */
+.copy-mail { display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; }
+.copy-mail .cm-stack { display: grid; overflow: hidden; }
+.copy-mail .cm-a, .copy-mail .cm-b { grid-area: 1 / 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; transition: transform .38s cubic-bezier(.2,.8,.2,1), opacity .28s ease; }
+.copy-mail .cm-b { transform: translateY(105%); opacity: 0; }
+.copy-mail.done .cm-a { transform: translateY(-105%); opacity: 0; }
+.copy-mail.done .cm-b { transform: none; opacity: 1; }
+.copy-mail .cm-check path { stroke-dasharray: 22; stroke-dashoffset: 22; transition: stroke-dashoffset .35s ease .18s; }
+.copy-mail.done .cm-check path { stroke-dashoffset: 0; }
+@media (prefers-reduced-motion: reduce) { .copy-mail .cm-a, .copy-mail .cm-b, .copy-mail .cm-check path { transition: none; } }
 html { visibility: visible !important; }
