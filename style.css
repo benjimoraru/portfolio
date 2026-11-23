@@ -819,4 +819,6 @@ html.in-modal .case-hero { padding-top: 84px; }
 .contact-mini .seat-you::after { content: ''; position: absolute; left: 0; right: 0; bottom: -5px; height: 14px; border: 1.5px dashed rgba(95,211,192,.6); border-radius: 50%; }
 .contact-mini .seat-you .seat-m { position: relative; z-index: 1; width: 32px; height: 32px; opacity: 1; filter: drop-shadow(0 3px 8px rgba(95,211,192,.35)); }
 @media (max-width: 720px) { .contact-mini { padding: 52px 0 60px; } }
+
+.facts .f-out { grid-column: 1 / -1; }
 html { visibility: visible !important; }
