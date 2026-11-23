@@ -396,3 +396,62 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
   }
   window.addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(spy); }, { passive: true });
 })();
+
+/* Copy email button */
+(function () {
+  document.querySelectorAll('.copy-mail').forEach(function (b) {
+    var t = b.querySelector('.cm-txt'), orig = t.textContent;
+    b.addEventListener('click', function () {
+      var m = b.dataset.mail;
+      b.style.minWidth = b.offsetWidth + 'px';
+      var done = function () { t.textContent = 'Copied!'; b.classList.add('done'); setTimeout(function () { t.textContent = orig; b.classList.remove('done'); }, 1600); };
+      if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(m).then(done, function () { location.href = 'mailto:' + m; });
+      else { var ta = document.createElement('textarea'); ta.value = m; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); done(); } catch (e) { location.href = 'mailto:' + m; } ta.remove(); }
+    });
+  });
+})();
+
+/* Inside a modal: hide the site chrome, send home links to the top window */
+(function () {
+  if (window.self === window.top) return;
+  document.documentElement.classList.add('in-modal');
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
+    var h = a.getAttribute('href');
+    if (/^index\.html|^resume\.html|^https?:|^mailto:|^tel:/.test(h)) a.target = '_top';
+  }, true);
+})();
+
+/* Case studies open in a full screen sheet on the home page, close with X, Esc or Back */
+(function () {
+  if (window.self !== window.top) return;
+  var links = document.querySelectorAll('#work a.card, #earlier a.card, .games a.more');
+  if (!links.length) return;
+  var wrap = null;
+  function open(href, push) {
+    if (wrap) return;
+    wrap = document.createElement('div'); wrap.className = 'cmodal'; wrap.setAttribute('role', 'dialog'); wrap.setAttribute('aria-modal', 'true');
+    wrap.innerHTML = '<div class="cm-sheet"><button class="cm-close" aria-label="Close case study">×</button><iframe title="Case study" src="' + href + '"></iframe></div>';
+    document.body.appendChild(wrap); document.documentElement.classList.add('cm-lock');
+    requestAnimationFrame(function () { wrap.classList.add('open'); });
+    wrap.querySelector('.cm-close').addEventListener('click', function () { history.state && history.state.cm ? history.back() : close(); });
+    wrap.addEventListener('click', function (e) { if (e.target === wrap) { history.state && history.state.cm ? history.back() : close(); } });
+    wrap.querySelector('.cm-close').focus();
+    if (push) history.pushState({ cm: href }, '', '#case-' + href.replace('.html', ''));
+  }
+  function close() {
+    if (!wrap) return; var w = wrap; wrap = null;
+    w.classList.remove('open'); document.documentElement.classList.remove('cm-lock');
+    setTimeout(function () { w.remove(); }, 350);
+  }
+  links.forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+      e.preventDefault(); open(a.getAttribute('href'), true);
+    });
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && wrap) { history.state && history.state.cm ? history.back() : close(); } });
+  window.addEventListener('popstate', function (e) { if (wrap && !(e.state && e.state.cm)) close(); else if (!wrap && e.state && e.state.cm) open(e.state.cm, false); });
+  var m = location.hash.match(/^#case-([\w-]+)$/);
+  if (m) { history.replaceState({ cm: m[1] + '.html' }, '', location.hash); open(m[1] + '.html', false); }
+})();
