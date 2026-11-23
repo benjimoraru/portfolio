@@ -404,7 +404,7 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
     b.addEventListener('click', function () {
       var m = b.dataset.mail;
       b.style.minWidth = b.offsetWidth + 'px';
-      var done = function () { t.textContent = 'Copied!'; b.classList.add('done'); setTimeout(function () { t.textContent = orig; b.classList.remove('done'); }, 1600); };
+      var done = function () { t.textContent = 'Copied!'; b.classList.add('done'); setTimeout(function () { t.textContent = orig; b.classList.remove('done'); b.style.minWidth = ''; b.blur(); }, 1600); };
       if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(m).then(done, function () { location.href = 'mailto:' + m; });
       else { var ta = document.createElement('textarea'); ta.value = m; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); done(); } catch (e) { location.href = 'mailto:' + m; } ta.remove(); }
     });
