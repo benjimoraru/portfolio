@@ -829,4 +829,8 @@ html.in-modal .case-hero { padding-top: 84px; }
 @media (max-width: 389px) { .hero-meta { flex-wrap: wrap; gap: 6px; } .hero-meta .chip { font-size: 12px; padding: 6px 10px; } }
 
 
+
+html.in-modal .lightbox { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(17,12,24,.95); }
+.cmodal iframe { border-radius: 22px 22px 0 0; }
+@media (max-width: 600px) { .cmodal iframe { border-radius: 18px 18px 0 0; } }
 html { visibility: visible !important; }
