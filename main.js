@@ -109,12 +109,12 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
     if (tbl && 'IntersectionObserver' in window && !touch.matches) {
       new IntersectionObserver(function (es) {
         es.forEach(function (e) {
-          if (e.isIntersecting && e.intersectionRatio > .6 && !demoed) {
+          if (e.isIntersecting && e.intersectionRatio > .6 && !demoed && !tbl.matches(':hover')) {
             demoed = true; demo = spots[0];
             setTimeout(function () { if (demo) { wiggle(demo); demo.classList.add('open'); demo.querySelector('.gpiece').setAttribute('aria-expanded', 'true'); } }, 450);
-          } else if (!e.isIntersecting) endDemo();
+          } else if (!e.isIntersecting || e.intersectionRatio < .2) { endDemo(); demoed = false; }
         });
-      }, { threshold: [0, .6] }).observe(tbl);
+      }, { threshold: [0, .2, .6] }).observe(tbl);
       tbl.addEventListener('mouseover', function (e) { if (demo && e.target.closest('.gspot') && e.target.closest('.gspot') !== demo) endDemo(); });
       tbl.addEventListener('mouseleave', function () { if (demo && demo.matches(':hover')) return; });
     }
