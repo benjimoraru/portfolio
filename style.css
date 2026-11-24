@@ -726,7 +726,6 @@ nav a.on { color: var(--accent); }
 .shot.scroll::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 72px; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,.96)); pointer-events: none; transition: opacity .5s ease; }
 .shot.scroll:hover::after { opacity: 0; }
 /* Lighter phone frames */
-.shot.phone { border-width: 3px !important; box-shadow: 0 0 0 1px rgba(23,18,29,.06), 0 18px 40px rgba(23,18,29,.12); }
 
 
 /* Kind words: big, short quotes */
@@ -880,4 +879,10 @@ html.in-modal .lightbox { backdrop-filter: none; -webkit-backdrop-filter: none; 
 
 .lightbox img { margin: auto; }
 .cmodal .cm-sheet { background: #1a1422; }
+
+/* Phone shots: same clean card as desktop, no black bezel */
+.shot.phone { border: 1px solid var(--line); border-radius: 20px; box-shadow: none; }
+@media (max-width: 720px) { .shot.phone { border-width: 1px; } }
+.shot .sticky-bar { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: auto !important; object-fit: contain !important; background: #fff; box-shadow: 0 -6px 18px rgba(17,12,24,.08); z-index: 2; pointer-events: none; transition: none !important; }
+.shot.has-bar::after { display: none; }
 html { visibility: visible !important; }
