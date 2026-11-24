@@ -857,7 +857,7 @@ html.in-modal .lightbox { backdrop-filter: none; -webkit-backdrop-filter: none; 
 .gbubble .gb-name em { font-style: normal; text-transform: none; letter-spacing: 0; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: linear-gradient(90deg, #ffd466, #ff9f8a, #a98bff); color: #110c18; }
 .gbubble h3 { font-size: 19px; line-height: 1.25; margin: 0 0 8px; color: #110c18; }
 .gbubble p { font-size: 14.5px; line-height: 1.55; color: #4a4252; margin: 0 0 10px; }
-.gbubble .more { font-size: 14px; font-weight: 600; color: #0f6e56; text-decoration: none; }
+.gbubble .more { font-size: 14px; font-weight: 600; color: var(--accent); text-decoration: none; }
 .gbubble .more:hover { text-decoration: underline; }
 @media (max-width: 900px) { .gspot { width: 110px; } .gpiece svg { width: 96px; height: 96px; } .gbubble { width: 290px; } }
 @media (max-width: 720px), (hover: none) {
