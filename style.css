@@ -841,8 +841,6 @@ html.in-modal .lightbox { backdrop-filter: none; -webkit-backdrop-filter: none; 
 .gs-1 { left: 15%; top: 74%; } .gs-2 { left: 38%; top: 67%; } .gs-3 { left: 62%; top: 75%; } .gs-4 { left: 85%; top: 68%; }
 .gpiece { all: unset; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; cursor: pointer; }
 .gpiece svg { width: 148px; height: 148px; transition: transform .4s cubic-bezier(.3,1.6,.5,1), filter .3s ease; }
-.gspot:nth-child(odd) .gpiece svg { transform: rotate(-4deg); }
-.gspot:nth-child(even) .gpiece svg { transform: rotate(5deg); }
 .gspot:hover .gpiece svg, .gspot.open .gpiece svg, .gpiece:focus-visible svg { transform: translateY(-10px) rotate(-6deg); filter: drop-shadow(0 12px 14px rgba(0,0,0,.35)); }
 .gpiece .g-name { font-size: 13px; font-weight: 600; color: rgba(244,241,247,.6); text-align: center; transition: color .2s ease; }
 .gspot:hover .g-name, .gspot.open .g-name { color: #f4f1f7; }
