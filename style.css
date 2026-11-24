@@ -691,7 +691,7 @@ nav a.on { color: var(--accent); }
 .jump.away { transform: translateY(-100%); opacity: 0; pointer-events: none; }
 
 /* At the very bottom, Let's talk fills the screen under the menu, so the seat and meeple are always in view */
-#contact.contact { min-height: calc(100vh - 190px); min-height: calc(100svh - 190px); }
+#contact.contact { padding-bottom: 88px; }
 
 @media (max-width: 720px) {
   #contact.contact { min-height: 0; padding: 44px 0 40px; }
