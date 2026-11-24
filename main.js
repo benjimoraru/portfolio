@@ -79,6 +79,26 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
     }
   }
 
+  // Off the clock: tap a piece on touch screens to open its bubble
+  (function () {
+    var spots = [].slice.call(document.querySelectorAll('.gspot'));
+    if (!spots.length) return;
+    var touch = window.matchMedia('(hover: none), (max-width: 720px)');
+    var t = document.querySelector('.gtable'); if (touch.matches && t) t.setAttribute('data-hint', 'Tap a piece');
+    function set(s) { spots.forEach(function (x) { var on = x === s; x.classList.toggle('open', on); x.querySelector('.gpiece').setAttribute('aria-expanded', on); }); }
+    spots.forEach(function (s) {
+      s.querySelector('.gpiece').addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (!touch.matches) return;
+        set(s.classList.contains('open') ? null : s);
+      });
+      s.addEventListener('mouseenter', function () { if (!touch.matches) s.querySelector('.gpiece').setAttribute('aria-expanded', 'true'); });
+      s.addEventListener('mouseleave', function () { if (!touch.matches) s.querySelector('.gpiece').setAttribute('aria-expanded', 'false'); });
+    });
+    document.addEventListener('click', function (e) { if (!e.target.closest('.gspot')) set(null); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { set(null); if (document.activeElement && document.activeElement.closest('.gspot')) document.activeElement.blur(); } });
+  })();
+
   // Lightbox for design screenshots
   var shots = document.querySelectorAll('.shot img');
   if (shots.length) {
