@@ -84,7 +84,7 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
     var spots = [].slice.call(document.querySelectorAll('.gspot'));
     if (!spots.length) return;
     var touch = window.matchMedia('(hover: none), (max-width: 720px)');
-    var t = document.querySelector('.gtable'); if (touch.matches && t) t.setAttribute('data-hint', 'Tap a piece');
+    var gh = document.querySelector('.g-hint'); if (touch.matches && gh) gh.textContent = 'Tap a piece';
     function set(s) { spots.forEach(function (x) { var on = x === s; x.classList.toggle('open', on); x.querySelector('.gpiece').setAttribute('aria-expanded', on); }); }
     spots.forEach(function (s) {
       s.querySelector('.gpiece').addEventListener('click', function (e) {

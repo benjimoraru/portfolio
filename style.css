@@ -859,7 +859,6 @@ html.in-modal .lightbox { backdrop-filter: none; -webkit-backdrop-filter: none; 
 .gbubble p { font-size: 14.5px; line-height: 1.55; color: #4a4252; margin: 0 0 10px; }
 .gbubble .more { font-size: 14px; font-weight: 600; color: #0f6e56; text-decoration: none; }
 .gbubble .more:hover { text-decoration: underline; }
-.gtable::after { content: attr(data-hint); position: absolute; left: 0; right: 0; top: 20px; text-align: center; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: rgba(244,241,247,.35); pointer-events: none; }
 @media (max-width: 900px) { .gspot { width: 110px; } .gpiece svg { width: 96px; height: 96px; } .gbubble { width: 290px; } }
 @media (max-width: 720px), (hover: none) {
   .gtable { height: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 18px 8px; padding: 28px 12px 44px; }
@@ -874,4 +873,7 @@ html.in-modal .lightbox { backdrop-filter: none; -webkit-backdrop-filter: none; 
   .gspot:hover .gpiece svg { transform: none; filter: none; }
   .gspot.open .gpiece svg { transform: translateY(-8px) rotate(-6deg); }
 }
+
+.g-hint { margin: 14px auto 0; width: fit-content; font-size: 13px; letter-spacing: .04em; color: var(--muted); text-align: center; }
+.g-hint::before { content: '↖ '; color: rgba(95,211,192,.75); }
 html { visibility: visible !important; }
