@@ -79,62 +79,12 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
     }
   }
 
-  // Hover to enlarge design screenshots (closes on scroll, Esc, click, or hovering another one)
-  (function () {
-    var figs = [].slice.call(document.querySelectorAll('.shot')).filter(function (f) { return !f.classList.contains('zoomable') && !f.classList.contains('scroll') && f.querySelector('img'); });
-    if (!figs.length) return;
-    var canHover = window.matchMedia('(hover: hover)').matches;
-    var cur = null, timer = null;
-    function rect(el, r) { el.style.left = r.left + 'px'; el.style.top = r.top + 'px'; el.style.width = r.width + 'px'; el.style.height = r.height + 'px'; }
-    function close(fast) {
-      if (!cur) return; var c = cur; cur = null;
-      if (fast) { c.el.remove(); return; }
-      c.el.classList.remove('on'); rect(c.el, c.fig.getBoundingClientRect()); c.el.style.opacity = '0';
-      setTimeout(function () { c.el.remove(); }, 340);
-    }
-    function open(fig) {
-      if (cur && cur.fig === fig) return;
-      close(false);
-      var img = fig.querySelector('img'), r = fig.getBoundingClientRect();
-      var vw = window.innerWidth, vh = window.innerHeight, m = 32;
-      var tm = document.documentElement.classList.contains('in-modal') ? m : 84;
-      var ar = (img.naturalWidth || r.width) / (img.naturalHeight || r.height);
-      var w = Math.min(vw - 2 * m, 1200, Math.max(r.width * 1.8, 640)), h = w / ar;
-      if (h > vh - tm - m) { h = vh - tm - m; w = h * ar; }
-      var left = (vw - w) / 2, top = tm + (vh - tm - m - h) / 2;
-      var el = document.createElement('img'); el.className = 'hz'; el.src = img.currentSrc || img.src; el.alt = img.alt || '';
-      rect(el, r); el.style.opacity = '0';
-      el.addEventListener('click', function (e) { e.stopPropagation(); close(); });
-      document.body.appendChild(el); cur = { fig: fig, el: el };
-      el.getBoundingClientRect();
-      el.classList.add('on'); el.style.opacity = '1';
-      rect(el, { left: left, top: top, width: w, height: h });
-    }
-    figs.forEach(function (f) {
-      f.classList.add('hz-src');
-      if (canHover) {
-        f.addEventListener('mousemove', function () {
-          if ((cur && cur.fig === f) || timer) return;
-          timer = setTimeout(function () { timer = null; open(f); }, cur ? 0 : 120);
-        });
-        f.addEventListener('mouseleave', function () { clearTimeout(timer); timer = null; });
-      } else {
-        f.addEventListener('click', function (e) { e.stopPropagation(); if (cur && cur.fig === f) close(); else open(f); });
-      }
-    });
-    window.addEventListener('scroll', function () { clearTimeout(timer); timer = null; close(); }, { passive: true });
-    window.addEventListener('resize', function () { close(true); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
-    document.addEventListener('click', function () { close(); });
-  })();
-
-  // Lightbox for big research boards only (click to zoom in and pan)
+  // Lightbox for design screenshots
   var shots = document.querySelectorAll('.shot img');
   if (shots.length) {
     var lb = document.createElement('div'); lb.className = 'lightbox'; lb.setAttribute('role','dialog');
     var big = document.createElement('img'); lb.appendChild(big); document.body.appendChild(lb);
     shots.forEach(function (img) {
-      if (!img.parentNode.classList.contains('zoomable')) return;
       img.parentNode.addEventListener('click', function () {
         big.src = img.src; big.alt = img.alt; lb.scrollTop = 0; lb.scrollLeft = 0;
         lb.classList.remove('full');
