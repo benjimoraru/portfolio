@@ -124,13 +124,13 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
   })();
 
   // Lightbox for design screenshots
-  var shots = document.querySelectorAll('.shot img');
+  var shots = document.querySelectorAll('.shot img:not(.sticky-bar)');
   if (shots.length) {
     var lb = document.createElement('div'); lb.className = 'lightbox'; lb.setAttribute('role','dialog');
     var big = document.createElement('img'); lb.appendChild(big); document.body.appendChild(lb);
     shots.forEach(function (img) {
       img.parentNode.addEventListener('click', function () {
-        big.src = img.src; big.alt = img.alt; lb.scrollTop = 0; lb.scrollLeft = 0;
+        big.src = img.dataset.full || img.src; big.alt = img.alt; lb.scrollTop = 0; lb.scrollLeft = 0;
         lb.classList.remove('full');
         lb.classList.toggle('zoom', img.parentNode.classList.contains('zoomable')); big.style.setProperty('--zw', (img.parentNode.dataset.zw || 6000) + 'px');
         lb.classList.add('open');
