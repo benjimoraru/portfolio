@@ -823,4 +823,8 @@ html.in-modal .case-hero { padding-top: 84px; }
 .facts .f-out { grid-column: 1 / -1; }
 
 .hero h1 .w { padding-bottom: .14em; margin-bottom: -.14em; }
+
+
+@media (max-width: 720px) { .hero-meta { flex-wrap: nowrap; gap: 5px; } .hero-meta .chip { font-size: 11.5px; padding: 5px 8px; white-space: nowrap; } .hero-meta .chip.dot::before { width: 7px; height: 7px; margin-right: 5px; } }
+@media (max-width: 389px) { .hero-meta { flex-wrap: wrap; gap: 6px; } .hero-meta .chip { font-size: 12px; padding: 6px 10px; } }
 html { visibility: visible !important; }
