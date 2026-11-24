@@ -79,12 +79,61 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
     }
   }
 
-  // Lightbox for design screenshots
+  // Hover to enlarge design screenshots (closes on scroll, Esc, click, or hovering another one)
+  (function () {
+    var figs = [].slice.call(document.querySelectorAll('.shot')).filter(function (f) { return !f.classList.contains('zoomable') && !f.classList.contains('scroll') && f.querySelector('img'); });
+    if (!figs.length) return;
+    var canHover = window.matchMedia('(hover: hover)').matches;
+    var cur = null, timer = null;
+    function close(fast) {
+      if (!cur) return; var c = cur; cur = null;
+      var r = c.fig.getBoundingClientRect();
+      if (fast) { c.el.remove(); return; }
+      c.el.style.left = r.left + 'px'; c.el.style.top = r.top + 'px'; c.el.style.width = r.width + 'px'; c.el.style.height = r.height + 'px'; c.el.style.opacity = '0';
+      setTimeout(function () { c.el.remove(); }, 320);
+    }
+    function open(fig) {
+      if (cur && cur.fig === fig) return;
+      close(true);
+      var img = fig.querySelector('img'), r = fig.getBoundingClientRect();
+      var vw = window.innerWidth, vh = window.innerHeight, m = 24;
+      var ar = (img.naturalWidth || r.width) / (img.naturalHeight || r.height);
+      var w = Math.min(vw - 2 * m, Math.max(r.width * 1.7, 560)), h = w / ar;
+      var tm = document.documentElement.classList.contains('in-modal') ? m : 76;
+      if (h > vh - tm - m) { h = vh - tm - m; w = h * ar; }
+      if (w < r.width) { w = r.width; h = w / ar; }
+      var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      var left = Math.min(Math.max(cx - w / 2, m), vw - m - w), top = Math.min(Math.max(cy - h / 2, tm), vh - m - h);
+      var el = document.createElement('img'); el.className = 'hz'; el.src = img.currentSrc || img.src; el.alt = '';
+      el.style.left = r.left + 'px'; el.style.top = r.top + 'px'; el.style.width = r.width + 'px'; el.style.height = r.height + 'px';
+      el.style.objectFit = getComputedStyle(img).objectFit === 'cover' ? 'cover' : 'contain';
+      document.body.appendChild(el); cur = { fig: fig, el: el };
+      el.getBoundingClientRect();
+      el.classList.add('on'); el.style.objectFit = 'contain';
+      el.style.left = left + 'px'; el.style.top = top + 'px'; el.style.width = w + 'px'; el.style.height = h + 'px';
+    }
+    figs.forEach(function (f) {
+      f.classList.add('hz-src');
+      if (canHover) {
+        f.addEventListener('mouseenter', function () { clearTimeout(timer); timer = setTimeout(function () { open(f); }, cur ? 60 : 160); });
+        f.addEventListener('mouseleave', function () { clearTimeout(timer); });
+      } else {
+        f.addEventListener('click', function (e) { e.stopPropagation(); if (cur && cur.fig === f) close(); else open(f); });
+      }
+    });
+    window.addEventListener('scroll', function () { clearTimeout(timer); close(); }, { passive: true });
+    window.addEventListener('resize', function () { close(true); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+    document.addEventListener('click', function () { close(); });
+  })();
+
+  // Lightbox for big research boards only (click to zoom in and pan)
   var shots = document.querySelectorAll('.shot img');
   if (shots.length) {
     var lb = document.createElement('div'); lb.className = 'lightbox'; lb.setAttribute('role','dialog');
     var big = document.createElement('img'); lb.appendChild(big); document.body.appendChild(lb);
     shots.forEach(function (img) {
+      if (!img.parentNode.classList.contains('zoomable')) return;
       img.parentNode.addEventListener('click', function () {
         big.src = img.src; big.alt = img.alt; lb.scrollTop = 0; lb.scrollLeft = 0;
         lb.classList.remove('full');
