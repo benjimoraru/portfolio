@@ -95,7 +95,30 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
       s.addEventListener('mouseenter', function () { if (!touch.matches) s.querySelector('.gpiece').setAttribute('aria-expanded', 'true'); });
       s.addEventListener('mouseleave', function () { if (!touch.matches) s.querySelector('.gpiece').setAttribute('aria-expanded', 'false'); });
     });
-    document.addEventListener('click', function (e) { if (!e.target.closest('.gspot')) set(null); });
+    // random, springy lift like the other pieces on the site
+    function wiggle(s) {
+      var svg = s.querySelector('.gpiece svg');
+      svg.style.setProperty('--hx', (Math.random() * 8 - 4).toFixed(1) + 'px');
+      svg.style.setProperty('--hy', (-8 - Math.random() * 8).toFixed(1) + 'px');
+      svg.style.setProperty('--hr', ((Math.random() < .5 ? -1 : 1) * (3 + Math.random() * 7)).toFixed(1) + 'deg');
+    }
+    spots.forEach(function (s) { s.addEventListener('mouseenter', function () { wiggle(s); }); s.querySelector('.gpiece').addEventListener('focus', function () { wiggle(s); }); });
+    // open the favourite once when the table comes into view, so the interaction is discoverable
+    var tbl = document.querySelector('.gtable'), demoed = false, demo = null;
+    function endDemo() { if (demo) { demo.classList.remove('open'); demo.querySelector('.gpiece').setAttribute('aria-expanded', 'false'); demo = null; } }
+    if (tbl && 'IntersectionObserver' in window && !touch.matches) {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          if (e.isIntersecting && e.intersectionRatio > .6 && !demoed) {
+            demoed = true; demo = spots[0];
+            setTimeout(function () { if (demo) { wiggle(demo); demo.classList.add('open'); demo.querySelector('.gpiece').setAttribute('aria-expanded', 'true'); } }, 450);
+          } else if (!e.isIntersecting) endDemo();
+        });
+      }, { threshold: [0, .6] }).observe(tbl);
+      tbl.addEventListener('mouseover', function (e) { if (demo && e.target.closest('.gspot') && e.target.closest('.gspot') !== demo) endDemo(); });
+      tbl.addEventListener('mouseleave', function () { if (demo && demo.matches(':hover')) return; });
+    }
+    document.addEventListener('click', function (e) { if (!e.target.closest('.gspot')) { set(null); endDemo(); } });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { set(null); if (document.activeElement && document.activeElement.closest('.gspot')) document.activeElement.blur(); } });
   })();
 
