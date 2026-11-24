@@ -89,6 +89,7 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
     spots.forEach(function (s) {
       s.querySelector('.gpiece').addEventListener('click', function (e) {
         e.stopPropagation();
+        wiggle(s);
         if (!touch.matches) return;
         set(s.classList.contains('open') ? null : s);
       });
