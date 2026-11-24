@@ -85,47 +85,44 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
     if (!figs.length) return;
     var canHover = window.matchMedia('(hover: hover)').matches;
     var cur = null, timer = null;
-    function startT(fig, el) {
-      var r = fig.getBoundingClientRect(), L = parseFloat(el.style.left), T = parseFloat(el.style.top), W = parseFloat(el.style.width), H = parseFloat(el.style.height);
-      var sc = r.width / W;
-      return 'translate(' + (r.left + r.width / 2 - (L + W / 2)) + 'px,' + (r.top + r.height / 2 - (T + H / 2)) + 'px) scale(' + sc + ')';
-    }
+    function rect(el, r) { el.style.left = r.left + 'px'; el.style.top = r.top + 'px'; el.style.width = r.width + 'px'; el.style.height = r.height + 'px'; }
     function close(fast) {
       if (!cur) return; var c = cur; cur = null;
       if (fast) { c.el.remove(); return; }
-      c.el.classList.remove('on'); c.el.style.transform = startT(c.fig, c.el); c.el.style.opacity = '0';
-      setTimeout(function () { c.el.remove(); }, 380);
+      c.el.classList.remove('on'); rect(c.el, c.fig.getBoundingClientRect()); c.el.style.opacity = '0';
+      setTimeout(function () { c.el.remove(); }, 340);
     }
     function open(fig) {
       if (cur && cur.fig === fig) return;
-      close(cur ? false : true);
+      close(false);
       var img = fig.querySelector('img'), r = fig.getBoundingClientRect();
-      var vw = window.innerWidth, vh = window.innerHeight, m = 24;
+      var vw = window.innerWidth, vh = window.innerHeight, m = 32;
+      var tm = document.documentElement.classList.contains('in-modal') ? m : 84;
       var ar = (img.naturalWidth || r.width) / (img.naturalHeight || r.height);
-      var w = Math.min(vw - 2 * m, Math.max(r.width * 1.7, 560)), h = w / ar;
-      var tm = document.documentElement.classList.contains('in-modal') ? m : 76;
+      var w = Math.min(vw - 2 * m, 1200, Math.max(r.width * 1.8, 640)), h = w / ar;
       if (h > vh - tm - m) { h = vh - tm - m; w = h * ar; }
-      if (w < r.width) { w = r.width; h = w / ar; }
-      var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-      var left = Math.min(Math.max(cx - w / 2, m), vw - m - w), top = Math.min(Math.max(cy - h / 2, tm), vh - m - h);
-      var el = document.createElement('img'); el.className = 'hz'; el.src = img.currentSrc || img.src; el.alt = '';
-      el.style.left = left + 'px'; el.style.top = top + 'px'; el.style.width = w + 'px'; el.style.height = h + 'px';
-      el.style.opacity = '0';
+      var left = (vw - w) / 2, top = tm + (vh - tm - m - h) / 2;
+      var el = document.createElement('img'); el.className = 'hz'; el.src = img.currentSrc || img.src; el.alt = img.alt || '';
+      rect(el, r); el.style.opacity = '0';
+      el.addEventListener('click', function (e) { e.stopPropagation(); close(); });
       document.body.appendChild(el); cur = { fig: fig, el: el };
-      el.style.transform = startT(fig, el);
       el.getBoundingClientRect();
-      requestAnimationFrame(function () { el.classList.add('on'); el.style.transform = 'none'; el.style.opacity = '1'; });
+      el.classList.add('on'); el.style.opacity = '1';
+      rect(el, { left: left, top: top, width: w, height: h });
     }
     figs.forEach(function (f) {
       f.classList.add('hz-src');
       if (canHover) {
-        f.addEventListener('mouseenter', function () { clearTimeout(timer); timer = setTimeout(function () { open(f); }, cur ? 60 : 160); });
-        f.addEventListener('mouseleave', function () { clearTimeout(timer); });
+        f.addEventListener('mousemove', function () {
+          if ((cur && cur.fig === f) || timer) return;
+          timer = setTimeout(function () { timer = null; open(f); }, cur ? 0 : 120);
+        });
+        f.addEventListener('mouseleave', function () { clearTimeout(timer); timer = null; });
       } else {
         f.addEventListener('click', function (e) { e.stopPropagation(); if (cur && cur.fig === f) close(); else open(f); });
       }
     });
-    window.addEventListener('scroll', function () { clearTimeout(timer); close(); }, { passive: true });
+    window.addEventListener('scroll', function () { clearTimeout(timer); timer = null; close(); }, { passive: true });
     window.addEventListener('resize', function () { close(true); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
     document.addEventListener('click', function () { close(); });

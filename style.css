@@ -834,7 +834,7 @@ html.in-modal .case-hero { padding-top: 84px; }
 .shot.hz-src:hover { transform: none; box-shadow: none; }
 .shot.zoomable { cursor: zoom-in; }
 .shot.scroll { cursor: default; }
-.hz { position: fixed; z-index: 60; margin: 0; border-radius: 16px; background: #fff; pointer-events: none; transform-origin: 50% 50%; will-change: transform, opacity; box-shadow: 0 2px 6px rgba(17,12,24,.08); transition: transform .48s cubic-bezier(.22,1,.36,1), opacity .28s ease, box-shadow .48s ease; }
+.hz { position: fixed; z-index: 60; margin: 0; border-radius: 16px; background: #fff; object-fit: contain; cursor: zoom-out; box-shadow: 0 2px 6px rgba(17,12,24,.08); transition: left .4s cubic-bezier(.2,.8,.2,1), top .4s cubic-bezier(.2,.8,.2,1), width .4s cubic-bezier(.2,.8,.2,1), height .4s cubic-bezier(.2,.8,.2,1), opacity .25s ease, box-shadow .4s ease; }
 .hz.on { box-shadow: 0 30px 80px rgba(17,12,24,.28), 0 0 0 1px rgba(17,12,24,.06); }
 @media (prefers-reduced-motion: reduce) { .hz { transition: opacity .15s ease; } }
 html { visibility: visible !important; }
