@@ -132,7 +132,7 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
   });
 
   // Lightbox for design screenshots
-  var shots = document.querySelectorAll('.shot img:not(.sticky-bar)');
+  var shots = [];
   if (shots.length) {
     var lb = document.createElement('div'); lb.className = 'lightbox'; lb.setAttribute('role','dialog');
     var big = document.createElement('img'); lb.appendChild(big); document.body.appendChild(lb);

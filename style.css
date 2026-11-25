@@ -894,4 +894,6 @@ html.in-modal .lightbox { backdrop-filter: none; -webkit-backdrop-filter: none; 
 .decision:nth-child(odd) { --rest: -.35deg; } .decision:nth-child(even) { --rest: .35deg; }
 .reveal.in.decision { transform: rotate(var(--rest, 0deg)); }
 @media (max-width: 720px) { .decision { padding-left: 62px; } .decision::before { left: 16px; width: 30px; height: 30px; } .reveal.in.decision { transform: none; } }
+
+.shot, .shot.zoomable, .shot img { cursor: default !important; }
 html { visibility: visible !important; }
