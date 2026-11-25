@@ -886,4 +886,12 @@ html.in-modal .lightbox { backdrop-filter: none; -webkit-backdrop-filter: none; 
 @media (max-width: 720px) { .shot.phone { border-width: 1px; } }
 .shot .sticky-bar { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: auto !important; object-fit: contain !important; background: #fff; box-shadow: 0 -6px 18px rgba(17,12,24,.08); z-index: 2; pointer-events: none; transition: none !important; }
 .shot.has-bar::after { display: none; }
+
+/* Decision cards: stand out at rest, like cards dealt on the table */
+.decisions { counter-reset: dec; }
+.decision { position: relative; counter-increment: dec; padding-left: 70px; box-shadow: 0 1px 2px rgba(17,12,24,.04), 0 8px 20px -12px rgba(17,12,24,.18); }
+.decision::before { content: counter(dec); position: absolute; left: 20px; top: 20px; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font: 700 14px/1 Outfit, sans-serif; color: #110c18; background: #ffd466; box-shadow: inset 0 -3px 0 rgba(0,0,0,.14); }
+.decision:nth-child(odd) { --rest: -.35deg; } .decision:nth-child(even) { --rest: .35deg; }
+.reveal.in.decision { transform: rotate(var(--rest, 0deg)); }
+@media (max-width: 720px) { .decision { padding-left: 62px; } .decision::before { left: 16px; width: 30px; height: 30px; } .reveal.in.decision { transform: none; } }
 html { visibility: visible !important; }
