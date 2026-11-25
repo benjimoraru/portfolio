@@ -123,6 +123,14 @@ if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', fun
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { set(null); if (document.activeElement && document.activeElement.closest('.gspot')) document.activeElement.blur(); } });
   })();
 
+  // Decision cards: small random springy lift, like the table pieces
+  [].forEach.call(document.querySelectorAll('.decision'), function (d) {
+    d.addEventListener('mouseenter', function () {
+      d.style.setProperty('--dx', (Math.random() * 4 - 2).toFixed(1) + 'px');
+      d.style.setProperty('--dr', ((Math.random() < .5 ? -1 : 1) * (.4 + Math.random() * .8)).toFixed(2) + 'deg');
+    });
+  });
+
   // Lightbox for design screenshots
   var shots = document.querySelectorAll('.shot img:not(.sticky-bar)');
   if (shots.length) {

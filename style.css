@@ -182,8 +182,8 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
 .insight p:not(.n) { color: var(--muted); }
 
 .decisions { display: grid; gap: 12px; margin-top: 28px; }
-.decision { display: grid; gap: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px; border-left: 3px solid transparent; transition: border-color .25s ease, transform .25s ease; }
-.decision:hover { border-left-color: var(--accent); transform: translateX(4px); }
+.decision { display: grid; gap: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px; transition: border-color .25s ease, transform .25s ease; }
+.decision:hover { transform: translate(var(--dx, 0px), -4px) rotate(var(--dr, -.6deg)); box-shadow: 0 14px 30px -14px rgba(17,12,24,.22); }
 .decision span { color: var(--muted); font-size: 15px; }
 
 .checklist { list-style: none; margin-top: 20px; display: grid; gap: 12px; }
@@ -235,8 +235,9 @@ nav ul a:hover::after { transform: scaleX(1); transform-origin: left; }
 .button:not(.primary):hover { background: var(--ink); color: var(--bg); }
 
 .reveal.in.stat:hover, .reveal.in.duo-item:hover { transform: translateY(-4px); }
-.reveal.in.decision:hover { transform: translateX(4px); }
-.reveal.in.duo-item, .reveal.in.decision, .reveal.in.stat { transition: opacity .7s ease, transform .3s ease, box-shadow .3s ease, border-color .25s ease; }
+.reveal.in.decision:hover { transform: translate(var(--dx, 0px), -4px) rotate(var(--dr, -.6deg)); }
+.reveal.in.duo-item, .reveal.in.stat { transition: opacity .7s ease, transform .3s ease, box-shadow .3s ease, border-color .25s ease; }
+.reveal.in.decision { transition: opacity .7s ease, transform .4s cubic-bezier(.3,1.6,.5,1), box-shadow .3s ease; }
 
 @media (prefers-reduced-motion: reduce) {
   .reveal, .hero h1 .w { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
