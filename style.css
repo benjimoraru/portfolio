@@ -896,4 +896,12 @@ html.in-modal .lightbox { backdrop-filter: none; -webkit-backdrop-filter: none; 
 @media (max-width: 720px) { .decision { padding-left: 62px; } .decision::before { left: 16px; width: 30px; height: 30px; } .reveal.in.decision { transform: none; } }
 
 .shot, .shot.zoomable, .shot img { cursor: default !important; }
+
+/* Checkout flow slideshow */
+.shot.flow { aspect-ratio: 3024 / 2440; height: auto; }
+.shot.flow img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity .6s ease; }
+.shot.flow img.on { opacity: 1; }
+.flow-steps { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+.flow-steps button { font: inherit; font-size: 13px; color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; cursor: pointer; transition: all .3s ease; }
+.flow-steps button.on { color: var(--ink); background: var(--surface); border-color: var(--ink); }
 html { visibility: visible !important; }
